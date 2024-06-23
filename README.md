@@ -7,7 +7,7 @@ https://sites.google.com/view/shiomachisoft/%E3%83%9B%E3%83%BC%E3%83%A0
 
 [PicoLnCnv-WL]    
 We will use a Raspberry Pi Pico W.  
-PicoLnCnv-WL is firmware that performs the following line conversions (a) and (b).  
+PicoLnCnv-WL is firmware that performs the following line conversions(bridge) (a) and (b).  
 (a) USB (virtual COM) <==> UART  
 (b) Wi-Fi (TCP socket communication) <==> UART  
   
