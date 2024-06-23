@@ -4,7 +4,6 @@ https://sites.google.com/view/shiomachisoft/english-home
 https://sites.google.com/view/shiomachisoft/english-home/picolncnv  
 *Japanese  
 https://sites.google.com/view/shiomachisoft/%E3%83%9B%E3%83%BC%E3%83%A0  
-https://sites.google.com/view/shiomachisoft/raspberry-pi-pico%E3%81%AE%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0/  picolncnv%E3%81%AE%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89  
 
 [PicoLnCnv-WL]    
 We will use a Raspberry Pi Pico W.  
