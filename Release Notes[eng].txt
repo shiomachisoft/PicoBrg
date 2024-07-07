@@ -1,0 +1,4 @@
+-20240707
+
+Change in LED lighting specifications
+PC application and FW source code released
