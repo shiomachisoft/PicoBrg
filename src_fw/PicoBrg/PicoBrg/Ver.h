@@ -5,7 +5,7 @@
 #define MY_BOARD_PICO_W
 
 // FWバージョン
-#define FW_VER 0x24070700
+#define FW_VER 0x24071200
 
 // FW名
 // FW名のサイズは、NULL文字含めてFW_NAME_BUF_SIZEのサイズ以内
