@@ -5,8 +5,8 @@ PicoBrg is firmware that performs the following line conversions(bridge) (a) and
 (a) Wi-Fi (TCP socket communication) <==> UART   
 (b) USB (virtual COM) <==> UART  
 
-- Use the PC app to configure UART and wireless LAN.  
-- When using Wi-Fi, Pi Pico W becomes a TCP server.  
+- When using Wi-Fi, Pi Pico W becomes a TCP server. 
+- Use the PC app to configure UART and wireless LAN.   
 - Please refer to the manual for instructions on how to use it.    
 
     
