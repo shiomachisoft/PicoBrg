@@ -1,4 +1,4 @@
-*It was created using pico-sdk and C language without using MicroPython or Arduino IDE.  
+*It was created using pico-sdk and C language.  
 
 We will use a Raspberry Pi Pico W.  
 PicoBrg is firmware that performs the following line conversions(bridge) (a) and (b).    
