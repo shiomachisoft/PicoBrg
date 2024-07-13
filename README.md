@@ -1,3 +1,5 @@
+*It was created using pico-sdk and C language without using MicroPython or Arduino IDE.  
+
 [URL]  
 *English  
 https://sites.google.com/view/shiomachisoft/english-home   
