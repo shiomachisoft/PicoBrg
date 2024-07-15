@@ -10,8 +10,8 @@ static void CMD_ExecReqCmd_GetFwError(ST_FRM_REQ_FRAME *pstReqFrm);
 static void CMD_ExecReqCmd_ClearFwError(ST_FRM_REQ_FRAME *pstReqFrm);
 static void CMD_ExecReqCmd_EraseFlash(ST_FRM_REQ_FRAME *pstReqFrm);
 static void CMD_ExecReqCmd_GetFwInfo(ST_FRM_REQ_FRAME *pstReqFrm);
-static void CMD_ExecReqCmd_SetNwConfig(ST_FRM_REQ_FRAME *pstReqFrm);
-static void CMD_ExecReqCmd_GetNwConfig(ST_FRM_REQ_FRAME *pstReqFrm);
+static void CMD_ExecReqCmd_SetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm);
+static void CMD_ExecReqCmd_GetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm);
 
 // 要求コマンド実行
 void CMD_ExecReqCmd(ST_FRM_REQ_FRAME *pstReqFrm)
@@ -43,13 +43,13 @@ void CMD_ExecReqCmd(ST_FRM_REQ_FRAME *pstReqFrm)
     case CMD_ERASE_FLASH: 
         CMD_ExecReqCmd_EraseFlash(pstReqFrm);
         break;             
-    // ネットワーク設定変更コマンド
-    case CMD_SET_NW_CONFIG:
-        CMD_ExecReqCmd_SetNwConfig(pstReqFrm);
+    // ネットワーク設定変更コマンド2
+    case CMD_SET_NW_CONFIG2:
+        CMD_ExecReqCmd_SetNwConfig2(pstReqFrm);
         break;    
-    // ネットワーク設定取得コマンド
-    case CMD_GET_NW_CONFIG:
-        CMD_ExecReqCmd_GetNwConfig(pstReqFrm);
+    // ネットワーク設定取得コマンド2
+    case CMD_GET_NW_CONFIG2:
+        CMD_ExecReqCmd_GetNwConfig2(pstReqFrm);
         break;         
     default:
         break;       
@@ -209,11 +209,11 @@ static void CMD_ExecReqCmd_EraseFlash(ST_FRM_REQ_FRAME *pstReqFrm)
 }
 
 // ネットワーク設定変更コマンドの実行
-static void CMD_ExecReqCmd_SetNwConfig(ST_FRM_REQ_FRAME *pstReqFrm)
+static void CMD_ExecReqCmd_SetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm)
 {
     USHORT dataSize = 0;                // データサイズの期待値
     USHORT errCode = FRM_ERR_SUCCESS;   // エラーコード 
-    ST_NW_CONFIG stNwConfig;            // ネットワーク設定
+    ST_NW_CONFIG2 stNwConfig;            // ネットワーク設定
     ST_FLASH_DATA stFlashData;          // FLASHデータ
 
     // データサイズをチェック
@@ -242,7 +242,7 @@ static void CMD_ExecReqCmd_SetNwConfig(ST_FRM_REQ_FRAME *pstReqFrm)
 }
 
 // ネットワーク設定取得コマンドの実行
-static void CMD_ExecReqCmd_GetNwConfig(ST_FRM_REQ_FRAME *pstReqFrm)
+static void CMD_ExecReqCmd_GetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm)
 {
     USHORT dataSize = 0;                // データサイズの期待値
     USHORT errCode = FRM_ERR_SUCCESS;   // エラーコード 

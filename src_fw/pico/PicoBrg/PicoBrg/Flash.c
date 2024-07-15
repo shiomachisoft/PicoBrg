@@ -61,7 +61,7 @@ void FLASH_Read(ST_FLASH_DATA *pstFlashData)
     if (bDeafult) {
         // デフォルトの設定データを採用
         UART_SetDefault(&pstFlashData->stUartConfig);
-        tcp_server_set_default(&pstFlashData->stNwConfig);
+        tcp_cmn_set_default(&pstFlashData->stNwConfig);
     }
 }
 

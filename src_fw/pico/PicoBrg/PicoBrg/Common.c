@@ -1,20 +1,14 @@
 #include "Common.h" 
 
 // [ファイルスコープ変数]
-static bool f_isSettingMode = false;	// 設定モードか否か
 static ULONG f_errorBits = 0; 			// FWエラー
 static critical_section_t f_stSpinLock = {0};   // スピンロック
 static ST_QUE f_aQue[CMN_QUE_KIND_NUM] = {0}; 	// キューの配列
-static UCHAR f_aQueData_usbWlSend[CMN_QUE_DATA_MAX_USB_WL_SEND] = {0}; 	// USB/無線送信キューのデータ配列 
+static UCHAR f_aQueData_usbSend[CMN_QUE_DATA_MAX_USB_SEND] = {0}; 		// USB送信キューのデータ配列 
+static UCHAR f_aQueData_wlSend[CMN_QUE_DATA_MAX_WL_SEND] = {0}; 		// 無線送信キューのデータ配列 
 static UCHAR f_aQueData_uartSend[CMN_QUE_DATA_MAX_UART_SEND] = {0};	 	// UART送信キューのデータ配列
 static UCHAR f_aQueData_uartRecv[CMN_QUE_DATA_MAX_UART_RECV] = {0};    	// UART受信キューのデータ配列
 static UCHAR f_aQueData_wlRecv[CMN_QUE_DATA_MAX_WL_RECV] = {0}; 	 	// 無線受信キューのデータ配列
-
-// 設定モードか否かを取得
-bool CMN_IsSettingMode()
-{
-	return f_isSettingMode;
-}
 
 // エンキュー
 bool CMN_Enqueue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock) 
@@ -33,7 +27,8 @@ bool CMN_Enqueue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock)
 
 		// FWエラーを設定
 		switch (iQue) {
-		case CMN_QUE_KIND_USB_WL_SEND: // USB/無線送信
+		case CMN_QUE_KIND_USB_SEND: 	// USB送信		
+		case CMN_QUE_KIND_WL_SEND: 		// 無線送信
 			 errorBit = CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_USB_WL_SEND;
 			break;
 		case CMN_QUE_KIND_UART_SEND:   // UART送信
@@ -58,7 +53,8 @@ bool CMN_Enqueue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock)
 
 			// キューイング
 			switch (iQue) {
-			case CMN_QUE_KIND_USB_WL_SEND:	// USB送信 
+			case CMN_QUE_KIND_USB_SEND:		// USB送信 
+			case CMN_QUE_KIND_WL_SEND:		// 無線送信
 			case CMN_QUE_KIND_UART_SEND: 	// UART送信
 			case CMN_QUE_KIND_UART_RECV: 	// UART受信
 			case CMN_QUE_KIND_WL_RECV:	 	// 無線受信  
@@ -103,7 +99,8 @@ bool CMN_Dequeue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock)
 	else {
 		// デキュー
 		switch (iQue) {
-		case CMN_QUE_KIND_USB_WL_SEND:	// USB/無線送信 
+		case CMN_QUE_KIND_USB_SEND:		// USB送信 
+		case CMN_QUE_KIND_WL_SEND:		// 無線送信
 		case CMN_QUE_KIND_UART_SEND: 	// UART送信
 		case CMN_QUE_KIND_UART_RECV: 	// UART受信
 		case CMN_QUE_KIND_WL_RECV:	 	// 無線受信 		
@@ -246,16 +243,16 @@ void CMN_WdtNoEnableReboot()
 void CMN_Init()
 {
 	// [変数を初期化]
-	f_isSettingMode = !gpio_get(GP_02);
-
 	critical_section_init(&f_stSpinLock);
 
-	f_aQue[CMN_QUE_KIND_USB_WL_SEND].pBuf = (PVOID)f_aQueData_usbWlSend;
+	f_aQue[CMN_QUE_KIND_USB_SEND].pBuf 	  = (PVOID)f_aQueData_usbSend;
+	f_aQue[CMN_QUE_KIND_WL_SEND].pBuf     = (PVOID)f_aQueData_wlSend;
 	f_aQue[CMN_QUE_KIND_UART_SEND].pBuf   = (PVOID)f_aQueData_uartSend;
 	f_aQue[CMN_QUE_KIND_UART_RECV].pBuf   = (PVOID)f_aQueData_uartRecv;
 	f_aQue[CMN_QUE_KIND_WL_RECV].pBuf     = (PVOID)f_aQueData_wlRecv;
 
-	f_aQue[CMN_QUE_KIND_USB_WL_SEND].max = CMN_QUE_DATA_MAX_USB_WL_SEND;
+	f_aQue[CMN_QUE_KIND_USB_SEND].max 	 = CMN_QUE_DATA_MAX_USB_SEND;
+	f_aQue[CMN_QUE_KIND_WL_SEND].max 	 = CMN_QUE_DATA_MAX_WL_SEND;
 	f_aQue[CMN_QUE_KIND_UART_SEND].max   = CMN_QUE_DATA_MAX_UART_SEND;
 	f_aQue[CMN_QUE_KIND_UART_RECV].max   = CMN_QUE_DATA_MAX_UART_RECV;
 	f_aQue[CMN_QUE_KIND_WL_RECV].max     = CMN_QUE_DATA_MAX_WL_RECV;

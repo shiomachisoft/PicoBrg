@@ -37,7 +37,7 @@ static void MAIN_MainLoop_Core0()
 			f_isWillClearWdtByCore1 = true;
 		}	
 
-		// USB/無線受信データ取り出し⇒コマンド解析・実行
+		// USB受信データ取り出し⇒コマンド解析・実行
 		FRM_RecvMain();
 
  		// UARTメイン処理
@@ -60,8 +60,8 @@ static void MAIN_MainLoop_Core1()
 		MAIN_ControlLed();
 
 #ifdef MY_BOARD_PICO_W
-		// TCPサーバーのメイン処理
-		tcp_server_main();
+		// TCPのメイン処理
+		tcp_cmn_main();
 #endif
 
 		// USB/無線の送信メイン処理
@@ -72,24 +72,18 @@ static void MAIN_MainLoop_Core1()
 // LEDを制御する
 static void MAIN_ControlLed()
 {
-	ULONG period;
 	static bool bLedOn = false;
 
 	// LEDのON/OFFを変更するタイミングか否かを取得
 	if (true == TIMER_IsLedChangeTiming()) {
-		// ON/OFFのどちらにするかを決める
-		period = TIMER_GetLedPeriod();
-		if (TIMER_LED_PERIOD_SETTING == period) {
-			bLedOn = !bLedOn;	
-		}	
+		// LEDのON/OFFを決定
+		if (true == tcp_cmn_is_link_up()) {
+			bLedOn = true;
+		} 
 		else {
-			if (true == tcp_server_is_link_up()) {
-				bLedOn = true;
-			} 
-			else {
-				bLedOn = !bLedOn;	
-			}
+			bLedOn = !bLedOn;	
 		}
+		
 		// LEDにON/OFFを出力	
 #ifdef MY_BOARD_PICO_W		
 		cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, bLedOn);	
@@ -112,7 +106,7 @@ static void MAIN_ExceptionHandler()
 static void MAIN_Init()
 {
 	ST_FLASH_DATA *pstFlashData; // 電源起動時のFLASHデータ
-	ST_GPIO_CONFIG stGpioConfig; // GPIO設定
+	//ST_GPIO_CONFIG stGpioConfig; // GPIO設定
 
 	// 例外ハンドラを登録
 	MAIN_RegisterExceptionHandler();
@@ -121,8 +115,8 @@ static void MAIN_Init()
     stdio_init_all();
 
 	// GPIOを初期化
-	GPIO_SetDefault(&stGpioConfig);
-	GPIO_Init(&stGpioConfig);
+	//GPIO_SetDefault(&stGpioConfig);
+	//GPIO_Init(&stGpioConfig);
 
 	// 共通ライブラリを初期化
 	CMN_Init();	

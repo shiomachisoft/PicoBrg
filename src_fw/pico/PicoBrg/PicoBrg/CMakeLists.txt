@@ -14,7 +14,9 @@ if (TARGET tinyusb_device)
             Gpio.c
             Uart.c
             Timer.c
+            TcpClient.c
             TcpServer.c
+            TcpCommon.c
             Frame.c
             )
 

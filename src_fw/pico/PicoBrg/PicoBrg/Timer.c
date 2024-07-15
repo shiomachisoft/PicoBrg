@@ -13,7 +13,6 @@ static ULONG f_timerCnt_stabilizationWait = 0;  // 起動してからの安定�
 static ULONG f_aTimerCnt_recvTimeout[E_FRM_LINE_NUM] = {0}; // 右記のタイマカウント:要求フレームのヘッダを受信後、TIMER_RECV_TIMEOUT[ms]経過しても要求フレームの末尾まで受信してない場合はタイムアウトとする
 static ULONG f_timerCnt_usbSendTimeout = 0;     // USB送信タイムアウトのタイマカウント 
 static ULONG f_timerCnt_led = 0;                // LED点滅のタイマカウント
-static ULONG f_ledPeriod = TIMER_LED_PERIOD_NORMAL; // LED点滅周期
 
 // [関数プロトタイプ宣言]
 static bool Timer_PeriodicCallback(repeating_timer_t *rt);
@@ -50,17 +49,7 @@ static bool Timer_PeriodicCallback(repeating_timer_t *pstTimer)
     }
 
     // [LED点滅のタイマカウント]
-    if (CMN_IsSettingMode()) { // 設定モード時の場合
-        // 設定モード時のLED点滅の周期に設定
-        f_ledPeriod = TIMER_LED_PERIOD_SETTING;
-    }
-    else {
-        // ノーマルモード時のLED点滅の周期に設定
-        f_ledPeriod = TIMER_LED_PERIOD_NORMAL;        
-    }
-
-    // LED点滅のタイマカウント
-    if (f_timerCnt_led < f_ledPeriod) {
+    if (f_timerCnt_led < TIMER_LED_PERIOD) {
         f_timerCnt_led++; 
     }
  
@@ -107,19 +96,13 @@ bool TIMER_IsUsbSendTimeout()
 // LEDのON/OFFを変更するタイミングか否かを取得
 bool TIMER_IsLedChangeTiming()
 {
-    return (f_timerCnt_led >= f_ledPeriod) ? true : false;
+    return (f_timerCnt_led >= TIMER_LED_PERIOD) ? true : false;
 }
 
 // LED点滅のタイマカウントをクリア
 void TIMER_ClearLedTimer()
 {
     f_timerCnt_led = 0;
-}
-
-// LED点滅の周期を取得
-ULONG TIMER_GetLedPeriod()
-{
-    return f_ledPeriod;
 }
 
 // タイマーを初期化

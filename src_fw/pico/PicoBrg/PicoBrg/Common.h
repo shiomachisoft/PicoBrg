@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
+#include <time.h>
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "hardware/gpio.h"
@@ -36,7 +37,7 @@
 #include "Frame.h"
 #include "Gpio.h"
 #include "Uart.h"
-#include "TcpServer.h"
+#include "TcpCommon.h"
 #include "Flash.h"
 #include "Timer.h"
 #include "Cmd.h"
@@ -48,7 +49,8 @@
 #define CMN_QUE_DATA_MAX_UART_SEND      1024
 #define CMN_QUE_DATA_MAX_UART_RECV      1024
 #define CMN_QUE_DATA_MAX_I2C_REQ        8
-#define CMN_QUE_DATA_MAX_USB_WL_SEND    2048
+#define CMN_QUE_DATA_MAX_USB_SEND       2048
+#define CMN_QUE_DATA_MAX_WL_SEND        CMN_QUE_DATA_MAX_USB_SEND
 #define CMN_QUE_DATA_MAX_WL_RECV        1024
 
 // FWエラービット
@@ -65,7 +67,8 @@
 // [列挙体]
 // キューの種類
 typedef enum _E_CMN_QUE_KIND { 
-    CMN_QUE_KIND_USB_WL_SEND = 0,   // USB/無線送信
+    CMN_QUE_KIND_USB_SEND = 0,      // USB
+    CMN_QUE_KIND_WL_SEND,           // 無線送信
     CMN_QUE_KIND_UART_SEND,         // UART送信
     CMN_QUE_KIND_UART_RECV,         // UART受信 
     CMN_QUE_KIND_WL_RECV,           // 無線受信
@@ -86,7 +89,6 @@ typedef struct _ST_QUE {
 #pragma pack()
 
 // [関数プロトタイプ宣言]
-bool CMN_IsSettingMode();
 bool CMN_Enqueue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock);
 bool CMN_Dequeue(ULONG iQue, PVOID pData, ULONG size, bool bSpinLock);
 void CMN_EntrySpinLock();

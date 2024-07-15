@@ -1,3 +1,11 @@
+-20240715
+
+Major changes:
+Supports TCP client.
+No need to switch between configuration mode and line conversion mode.
+Discontinued USB<==>TCP conversion.
+
+
 -20240712
 
 Fixed a mistake in UART error detection

@@ -1,30 +1,39 @@
 #include "Common.h"
 
 // [define]
-#define FRM_SEND_BUF_SIZE CMN_QUE_DATA_MAX_USB_WL_SEND // USB/無線送信バッファのサイズ
+#define FRM_SEND_BUF_SIZE CMN_QUE_DATA_MAX_USB_SEND // USB/無線送信バッファのサイズ
 
 // [ファイルスコープ変数]
 static ST_FRM_RECV_DATA_INFO f_astRecvDataInf[E_FRM_LINE_NUM] = {0}; // USB/無線の受信データ情報
-static UCHAR f_aSendData[FRM_SEND_BUF_SIZE] = {0}; // USB/無線送信バッファ
+static UCHAR f_aaSendData[E_FRM_LINE_NUM][FRM_SEND_BUF_SIZE] = {0}; // USB/無線の送信バッファ
 
 // [関数プロトタイプ宣言]
 static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(ULONG line);
-static void FRM_ReqToSend(PVOID pBuf, ULONG size);
 static bool FRM_IsConnected(ULONG line);
 
 // USB/無線受信データ取り出し⇒コマンド解析・実行
 void FRM_RecvMain()
 {
-	ULONG iLine;
+	UCHAR data;
+	ULONG i;
     ST_FRM_REQ_FRAME *pstReqFrm = NULL; // 要求フレーム
 
-	for (iLine = 0; iLine < E_FRM_LINE_NUM; iLine++)
-	{
-		// USB/無線受信データから要求フレームを作成する
-		pstReqFrm = FRM_RecvReqFrame(iLine);
-		if (pstReqFrm != NULL) { // 要求フレームの抽出が完了した場合
-			// コマンドを解析・実行
-			CMD_ExecReqCmd(pstReqFrm);
+	// USB受信データから要求フレームを作成する
+	pstReqFrm = FRM_RecvReqFrame(E_FRM_LINE_USB);
+	if (pstReqFrm != NULL) { // 要求フレームの抽出が完了した場合
+		// コマンドを解析・実行
+		CMD_ExecReqCmd(pstReqFrm);
+	}
+
+	// 無線受信データをUART送信データのキューにエンキュー
+	for (i = 0; i < CMN_QUE_DATA_MAX_UART_SEND ; i++) { // データサイズ分繰り返す
+	    // 無線受信データの1byteのデキュー
+		if (!CMN_Dequeue(CMN_QUE_KIND_WL_RECV, &data, sizeof(UCHAR), true)) { // CPUコア1のエンキューとCPUコア0のデキューを排他する
+			break; // キューが空のの場合
+		}
+		// UART送信データ1byteのエンキュー
+		if (!CMN_Enqueue(CMN_QUE_KIND_UART_SEND, &data, sizeof(UCHAR), true)) { // true:UART送信割り込みのデキューと同期する
+			break; // キューが満杯
 		}
 	}
 }
@@ -40,21 +49,14 @@ static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(ULONG line)
 
 	isConnected = FRM_IsConnected(line);
 
-	if (!CMN_IsSettingMode()) { // 設定モードではない場合
-		if (!isConnected) { // 未接続
-			return pstReqFrm; 
+	// [要求フレームの受信タイムアウト判定]
+	if (pstRecv->reqFrmSize > 0) { // 要求フレームのヘッダは受信済みの場合
+		if (TIMER_IsRecvTimeout(line) // 右記のタイムアウトが発生した場合:要求フレームのヘッダを受信後、TIMER_RECV_TIMEOUT[ms]経過しても要求フレームの末尾まで受信してない場合はタイムアウトとする
+		|| (!isConnected)) { // 未接続の場合 
+			pstRecv->reqFrmSize = 0; // フレーム破棄
 		}
-	}
-	else {
-		// [要求フレームの受信タイムアウト判定]
-		if (pstRecv->reqFrmSize > 0) { // 要求フレームのヘッダは受信済みの場合
-			if (TIMER_IsRecvTimeout(line) // 右記のタイムアウトが発生した場合:要求フレームのヘッダを受信後、TIMER_RECV_TIMEOUT[ms]経過しても要求フレームの末尾まで受信してない場合はタイムアウトとする
-			|| (!isConnected)) { // 未接続の場合 
-				pstRecv->reqFrmSize = 0; // フレーム破棄
-			}
-		}	
-	}
-
+	}	
+	
 	// [USB/無線の受信データ1byte取り出し]
 	switch (line) // 回線の種類
 	{
@@ -64,7 +66,8 @@ static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(ULONG line)
 				return pstReqFrm; // NULLを返す
 			}
 			break;
-		case E_FRM_LINE_TCP_SERVER: // TCPサーバー
+		case E_FRM_LINE_TCP: // TCP
+			// 無線受信データの1byteのデキュー
 			if (!CMN_Dequeue(CMN_QUE_KIND_WL_RECV, &data, sizeof(UCHAR), true)) { // CPUコア1のエンキューとCPUコア0のデキューを排他する
 				return pstReqFrm; // NULLを返す
 			}
@@ -72,14 +75,6 @@ static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(ULONG line)
 		default:
 			break;
 	}	
-
-	if (!CMN_IsSettingMode()) { // 設定モードではない場合
-		// UART送信データ1byteのエンキュー
-		if (!CMN_Enqueue(CMN_QUE_KIND_UART_SEND, &data, sizeof(UCHAR), true)) { // true:UART送信割り込みのデキューと同期する
-			// 無処理
-		}			
-		return pstReqFrm; 
-	}
 
 	// [USB/無線の受信データから要求フレームを作成する]
 
@@ -163,39 +158,54 @@ static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(ULONG line)
 	return pstReqFrm;
 }
 
-// 送信フレーム取り出し⇒USB/無線送信
+// USB/無線送信フレーム取り出し⇒USB/無線送信
 void FRM_SendMain()
 {
 	UCHAR data;
-	ULONG i;
+	ULONG iLine;
+	ULONG iQue;
+	ULONG iData;
 	ULONG size; // USB/無線送信サイズ
 
-	for (i = 0; i < sizeof(f_aSendData); i++) { // USB/無線送信バッファのサイズ分繰り返す
-		// USB/無線送信データ1byteのデキュー
-		if (CMN_Dequeue(CMN_QUE_KIND_USB_WL_SEND, &data, sizeof(UCHAR), true)) { // true:CPUコア0のエンキューとCPUコア1のデキューを排他する
-			// USB/無線送信バッファにUSB/無線送信要求データを格納
-			f_aSendData[i] = data; 
+	for (iLine = 0; iLine < E_FRM_LINE_NUM; iLine++) {
+
+		if (E_FRM_LINE_USB == iLine) {
+			iQue = E_FRM_LINE_USB;
 		}
 		else {
-			break; // キューが空
-		}
-	}
-	size = i; // USB送信サイズ
+			iQue = E_FRM_LINE_TCP;
+		} 
 
-
-	if (size > 0) {
-		if (stdio_usb_connected()) { // USB接続済み
-			// USB送信 
-			stdio_usb_out_chars((const char*)f_aSendData, size);
+		for (iData = 0; iData < FRM_SEND_BUF_SIZE; iData++) { // USB/無線送信バッファのサイズ分繰り返す
+			// USB/無線送信データ1byteのデキュー
+			if (CMN_Dequeue(iQue, &data, sizeof(UCHAR), true)) { // true:CPUコア0のエンキューとCPUコア1のデキューを排他する
+				// USB/無線送信バッファにUSB/無線送信要求データを格納
+				f_aaSendData[iLine][iData] = data; 
+			}
+			else {
+				break; // キューが空
+			}
 		}
-		if (tcp_server_is_connected()) { // TCP接続済み
-			// TCP送信
-			tcp_server_send_data(f_aSendData, size);
+		size = iData; // USB送信サイズ
+
+		if (size > 0) {
+			if (E_FRM_LINE_USB == iLine) {
+				if (stdio_usb_connected()) { // USB接続済み
+					// USB送信 
+					stdio_usb_out_chars((const char*)f_aaSendData[iLine], size);
+				}			
+			}
+			else {
+				if (tcp_cmn_is_connected()) { // TCP接続済み
+					// TCP送信
+					tcp_cmn_send_data(f_aaSendData[iLine], size);
+				}			
+			}
 		}
 	}
 }
 
-// 応答フレームのUSB/無線送信
+// 応答フレームのUSB送信
 void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf)
 {
 	ULONG frmSize;        			// 応答フレームのサイズ(チェックサム除く)
@@ -218,46 +228,34 @@ void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT data
 	stResFrm.checksum = CMN_CalcChecksum(&stResFrm, frmSize); 
 	
 	// USB/無線送信要求を発行
-	FRM_ReqToSend(&stResFrm, frmSize); // ヘッダ部～データ部 ※データ部:aData[]メンバは全領域送信するわけではない
-	FRM_ReqToSend(&stResFrm.checksum, sizeof(stResFrm.checksum)); // チェックサム部
+	FRM_ReqToSend(E_FRM_LINE_USB, &stResFrm, frmSize); // ヘッダ部～データ部 ※データ部:aData[]メンバは全領域送信するわけではない
+	FRM_ReqToSend(E_FRM_LINE_USB, &stResFrm.checksum, sizeof(stResFrm.checksum)); // チェックサム部
 }
 
-// 通知フレームのUSB/無線送信
+// 通知フレームの無線送信
 void FRM_MakeAndSendNotifyFrm(UCHAR header, USHORT dataSize, PVOID pBuf)
 {
-	UCHAR* pDataAry = (UCHAR*)pBuf; // 通知フレームのデータ部
-	ULONG frmSize; 					// 通知フレームのサイズ(チェックサム部除く)
-	ST_FRM_NOTIFY_FRAME stNtyFrm; 	// 通知フレーム
-	
-	if (!CMN_IsSettingMode()) { // 設定モードではない場合
-		// USB/無線送信要求を発行
-    	FRM_ReqToSend(pBuf, dataSize);	
-	}
-	else { // 設定モードの場合
-		// 通知フレームを作成
-		stNtyFrm.header   = header; 			 	// ヘッダ
-		stNtyFrm.dataSize = dataSize; 			 	// データサイズ
-		memcpy(stNtyFrm.aData, pDataAry, dataSize); // データ
-		// 通知フレームのサイズ(チェックサム除く)を計算
-		frmSize = sizeof(stNtyFrm.header) + sizeof(stNtyFrm.dataSize) + stNtyFrm.dataSize;
-		// チェックサムを計算 
-		stNtyFrm.checksum = CMN_CalcChecksum(&stNtyFrm, frmSize);
-
-		// USB/無線送信要求を発行
-		FRM_ReqToSend(&stNtyFrm, frmSize); // ヘッダ部～データ部 ※データ部:aData[]メンバは全領域送信するわけではない
-		FRM_ReqToSend(&stNtyFrm.checksum, sizeof(stNtyFrm.checksum));// チェックサム部	
-	}
+	// 無線送信要求を発行
+    FRM_ReqToSend(E_FRM_LINE_TCP, pBuf, dataSize);	
 }
 
 // USB/無線送信要求を発行
-static void FRM_ReqToSend(PVOID pBuf, ULONG size)
+void FRM_ReqToSend(ULONG iLine, PVOID pBuf, ULONG size)
 {
 	UCHAR* pDataAry = (UCHAR*)pBuf;
-	ULONG i;
+	ULONG iQue;
+	ULONG iData;
 
-	for (i = 0; i < size; i++) {
+	if (E_FRM_LINE_USB == iLine) {
+		iQue = E_FRM_LINE_USB;
+	}
+	else {
+		iQue = E_FRM_LINE_TCP;
+	} 
+
+	for (iData = 0; iData < size; iData++) {
 		// USB/無線送信データをエンキュー
-		if (!CMN_Enqueue(CMN_QUE_KIND_USB_WL_SEND, &pDataAry[i], sizeof(UCHAR), true)) { // CPUコア0のエンキューとCPUコア1のデキューを排他する
+		if (!CMN_Enqueue(iQue, &pDataAry[iData], sizeof(UCHAR), true)) { // CPUコア0のエンキューとCPUコア1のデキューを排他する
 			break; // キューが満杯
 		}
 	} 	
@@ -273,8 +271,8 @@ static bool FRM_IsConnected(ULONG line)
 		case E_FRM_LINE_USB: // USB
 			isConnected = stdio_usb_connected();
 			break;
-		case E_FRM_LINE_TCP_SERVER: // TCPサーバー
-			isConnected = tcp_server_is_connected();
+		case E_FRM_LINE_TCP: // TCP
+			isConnected = tcp_cmn_is_connected();
 			break;
 		default:
 			break;
