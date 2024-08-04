@@ -227,7 +227,7 @@ void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT data
 	// チェックサムを計算 
 	stResFrm.checksum = CMN_CalcChecksum(&stResFrm, frmSize); 
 	
-	// USB/無線送信要求を発行
+	// USB送信要求を発行
 	FRM_ReqToSend(E_FRM_LINE_USB, &stResFrm, frmSize); // ヘッダ部～データ部 ※データ部:aData[]メンバは全領域送信するわけではない
 	FRM_ReqToSend(E_FRM_LINE_USB, &stResFrm.checksum, sizeof(stResFrm.checksum)); // チェックサム部
 }

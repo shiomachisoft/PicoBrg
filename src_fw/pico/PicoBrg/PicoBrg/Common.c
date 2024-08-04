@@ -1,7 +1,7 @@
 #include "Common.h" 
 
 // [ファイルスコープ変数]
-static ULONG f_errorBits = 0; 			// FWエラー
+static ULONG f_errorBits = 0; // FWエラー
 static critical_section_t f_stSpinLock = {0};   // スピンロック
 static ST_QUE f_aQue[CMN_QUE_KIND_NUM] = {0}; 	// キューの配列
 static UCHAR f_aQueData_usbSend[CMN_QUE_DATA_MAX_USB_SEND] = {0}; 		// USB送信キューのデータ配列 
