@@ -1,5 +1,5 @@
 # 1. PicoBrgの概要  
-- (1)マイコン基板はRaspberry Pico Pico Wを使用します。
+- (1)マイコン基板はRaspberry Pi Pico Wを使用します。
 - (2)Wi-Fi(TCP ソケット通信) <==> UART  の変換(ブリッジ)を行います。
 - (3)Pico Wに対するWi-Fi設定等は専用PCアプリを使用し、Pico WのFlashメモリに保存します。
 
