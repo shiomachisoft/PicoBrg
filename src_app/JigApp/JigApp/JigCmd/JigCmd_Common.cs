@@ -22,16 +22,19 @@ namespace JigLib
         public const string STR_MSG_WAIT_RES_CANCEL = "Waiting for a response to send a command has been canceled.";
 
         /// <summary>
-        /// 応答フレームの最大サイズ
-        /// </summary>
-        protected const int FRM_RES_SIZE = 311;
-        /// <summary>
         /// フレーム中のデータ部の最大サイズ
         /// </summary>
         /// <remarks>
         /// FW側のFRM_DATA_MAX_SIZEの値に合わせる
         /// </remarks>
-        protected const int FRM_DATA_MAX_SIZE = 300;
+        protected const int FRM_DATA_MAX_SIZE = 1024;
+        /// <summary>
+        /// 応答フレームの最大サイズ
+        /// </summary>
+        /// <remarks>
+        /// 応答フレームの方が通知フレームよりサイズが大きい
+        /// </remarks>
+        protected const int FRM_RES_SIZE = FRM_DATA_MAX_SIZE + 11;
         /// <summary>
         /// 受信タスクの終了待ちタイムアウト時間(ms)
         /// </summary>
@@ -67,18 +70,20 @@ namespace JigLib
             "UART:Break error",
             "UART:Overrun error",
             "I2C:address not acknowledged, or, no device present.",
-            //"I2C通信でタイムアウト",
+            // I2C通信でタイムアウト
             "Timeout in I2C communication",
-            //"バッファに空きがないので要求データを破棄した(USB/無線送信)",
+            // バッファに空きがないので要求データを破棄した(USB/無線送信)
             "The requested data was discarded because there was no space in the buffer (USB/wireless transmission)",
-            //"バッファに空きがないので要求データを破棄した(UART送信)",
+            // バッファに空きがないので要求データを破棄した(UART送信)
             "The requested data was discarded because there was no space in the buffer (UART transmission)",
-            //"バッファに空きがないので要求データを破棄した(UART受信)",
+            // バッファに空きがないので要求データを破棄した(UART受信)
             "The requested data was discarded because there was no space in the buffer (UART reception)",
-            //"バッファに空きがないので要求データを破棄した(I2C送信/受信)",
+            // バッファに空きがないので要求データを破棄した(I2C送信/受信)
             "The requested data was discarded because there was no space in the buffer (I2C transmission/reception)",
-            //"バッファに空きがないので要求データを破棄した(無線受信)"
+            // バッファに空きがないので要求データを破棄した(無線受信)
             "Requested data was discarded because there was no space in the buffer (wireless reception)",
+            // lwIPのtcp_write()がエラーになった
+            "lwIP's tcp_write() failed with an error."
         };
 
         /// <summary>
@@ -205,6 +210,14 @@ namespace JigLib
             /// ネットワーク設定取得2
             /// </summary>
             GET_NW_CONFIG2,
+            /// <summary>
+            /// ネットワーク設定変更3
+            /// </summary>
+            SET_NW_CONFIG3,
+            /// <summary>
+            /// ネットワーク設定取得3
+            /// </summary>
+            GET_NW_CONFIG3,
         }
 
         /// <summary>
