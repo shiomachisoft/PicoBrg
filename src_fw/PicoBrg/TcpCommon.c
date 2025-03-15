@@ -177,6 +177,10 @@ err_t tcp_cmn_send_data(uint8_t* buffer_sent, uint32_t size)
     if (err != ERR_OK) {
         (void)tcp_cmn_result(&f_state, -1);
     }
+    else {
+        tcp_output(f_state.pcb);
+    }
+ 
     return err;
 }
 
