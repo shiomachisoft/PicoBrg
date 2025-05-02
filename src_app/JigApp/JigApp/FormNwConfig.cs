@@ -45,14 +45,23 @@ namespace JigApp
         /// <summary>
         /// フォームのロード時
         /// </summary>
-        private void FormNetwork_Load(object sender, EventArgs e)
+        private void FormNwConfig_Load(object sender, EventArgs e)
         {
             // タイトル
             this.Text = _strTitle + " - " + Program.PrpJigCmd.PrpConnectName;
 
+            if (Str.PrpFwName != Str.STR_FW_NAME_PICOBRG)
+            {
+                radioButton_BLE.Visible = false;
+                radioButton_Wifi.Visible = false;
+            }
+
             if (Str.PrpFwName == Str.STR_FW_NAME_PICOBRG)
             {
                 _eNwConfig = E_NW_CONFIG.NW_CONFIG2;
+                label_CountryCode.Visible = false;
+                textBox_CountryCode.Visible = false;
+                label_CountryCode_Eg.Visible = false;
                 groupBox_EMail.Visible = false;
             }
             else if (Str.PrpFwName == Str.STR_FW_NAME_PICOIOT)
@@ -62,12 +71,12 @@ namespace JigApp
                 textBox_CountryCode.Visible = false;
                 label_CountryCode_Eg.Visible = false;
             }
-            else 
+            else
             {
                 groupBox_TcpSocketCom.Visible = false;
                 groupBox_EMail.Visible = false;
             }
-           
+
             // 通信設定を取得
             GetConfig();
         }
@@ -83,6 +92,7 @@ namespace JigApp
             string strPassword = null;
             string strServerIpAddr = null;
             bool isClient = false;
+            bool isWifi = false;
             string strGMailAddress = null;
             string strGMailAppPassword = null;
             string strToEMailAddress = null;
@@ -96,7 +106,7 @@ namespace JigApp
                 {
                     case E_NW_CONFIG.NW_CONFIG2:
                         //「ネットワーク設定取得2」コマンドの要求を送信
-                        return Program.PrpJigCmd.SendCmd_GetNwConfig2(out strCountryCode, out strIpAddr, out strSsid, out strPassword, out strServerIpAddr, out isClient);
+                        return Program.PrpJigCmd.SendCmd_GetNwConfig2(out isWifi, out strCountryCode, out strIpAddr, out strSsid, out strPassword, out strServerIpAddr, out isClient);
                     case E_NW_CONFIG.NW_CONFIG3:
                         //「ネットワーク設定取得3」コマンドの要求を送信
                         return Program.PrpJigCmd.SendCmd_GetNwConfig3(out strCountryCode, out strIpAddr, out strSsid, out strPassword, out strServerIpAddr, out isClient, out strGMailAddress, out strGMailAppPassword, out strToEMailAddress, out mailIntervalHour);
@@ -114,6 +124,10 @@ namespace JigApp
                 textBox_IpAddr.Text = strIpAddr;
                 textBox_SSID.Text = strSsid;
                 textBox_Password.Text = strPassword;
+                if (_eNwConfig == E_NW_CONFIG.NW_CONFIG2)
+                {
+                    radioButton_Wifi.Checked = isWifi;
+                }
                 if ((_eNwConfig == E_NW_CONFIG.NW_CONFIG2) || (_eNwConfig == E_NW_CONFIG.NW_CONFIG3))
                 {
                     radioButton_Server.Checked = !isClient;
@@ -154,7 +168,7 @@ namespace JigApp
                 if (_eNwConfig == E_NW_CONFIG.NW_CONFIG2)
                 {
                     //「ネットワーク設定設定変更2」コマンドの要求を送信
-                    return Program.PrpJigCmd.SendCmd_SetNwConfig2(textBox_CountryCode.Text.Trim(), textBox_IpAddr.Text.Trim(), textBox_SSID.Text.Trim(), textBox_Password.Text.Trim(), textBox_ServerIpAddr.Text.Trim(), radioButton_Client.Checked);
+                    return Program.PrpJigCmd.SendCmd_SetNwConfig2(radioButton_Wifi.Checked, textBox_CountryCode.Text.Trim(), textBox_IpAddr.Text.Trim(), textBox_SSID.Text.Trim(), textBox_Password.Text.Trim(), textBox_ServerIpAddr.Text.Trim(), radioButton_Client.Checked);
                 }
                 else if (_eNwConfig == E_NW_CONFIG.NW_CONFIG3)
                 {
@@ -171,8 +185,6 @@ namespace JigApp
             {
                 string strInfoMsg = "Setting changes are complete.\nThe microcontroller will be reset.\n\nPlease wait from a few seconds to several tens of seconds.";
                 UI.ShowInfoMsg(this, strInfoMsg);
-                // 再接続する
-                FormMain.Inst.Reconnect();
             }
             else
             {

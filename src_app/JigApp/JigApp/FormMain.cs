@@ -176,7 +176,7 @@ namespace JigApp
             // [接続状態のモニタ]
             if ((!Program.PrpJigCmd.IsConnected()) && (label_ConnectStatus.Text == STR_LBL_CONNECT))
             {
-                // マイコンとの接続がUI操作以外の要因で切断された場合
+                // マイコンとの接続が切断された場合
                 AppendAppLogText(true, "Connection status is abnormal.");
                 // 再接続する
                 Reconnect();
@@ -610,7 +610,7 @@ namespace JigApp
             string strErrMsg;
 
             // 確認メッセージを表示
-            if (DialogResult.No == UI.ShowYesNoMsg(this, "Do you want to save settings to flash memory?\n\n[Note]\nIf you want to erase the setting data saved in the flash memory, press the \"Erase setting data in flash memory\" button on the main screen."))
+            if (DialogResult.No == UI.ShowYesNoMsg(this, "Do you want to erase the setting data in the flash memory?"))
             {
                 return;
             }
@@ -624,10 +624,8 @@ namespace JigApp
             });
             if (strErrMsg == null)
             {
-                string strInfoMsg = "Setting changes are complete.\nThe microcontroller will be reset.\n\nPlease wait from a few seconds to several tens of seconds.";
+                string strInfoMsg = "Erase is complete.\nThe microcontroller will be reset.\n\nPlease wait from a few seconds to several tens of seconds.";
                 UI.ShowInfoMsg(this, strInfoMsg);
-                // 再接続する
-                Reconnect();
             }
             else
             {

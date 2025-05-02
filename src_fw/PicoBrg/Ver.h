@@ -3,10 +3,11 @@
 #define VER_H
 
 // FWバージョン
-#define FW_VER 0x25031500
+#define FW_VER 0x25050100
 
 // FW名
 // FW名のサイズは、NULL文字含めてFW_NAME_BUF_SIZEのサイズ以内
+// ※FW名を変更した場合は、f_advertisingData[]の初期値のlocal_nameも変更が必要。
 #define FW_NAME "PicoBrg"
 
 // FW名のバッファサイズ

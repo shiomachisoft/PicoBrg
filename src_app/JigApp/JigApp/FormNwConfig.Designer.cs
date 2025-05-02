@@ -55,6 +55,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButton_BLE = new System.Windows.Forms.RadioButton();
+            this.radioButton_Wifi = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox_WiFi.SuspendLayout();
             this.groupBox_TcpSocketCom.SuspendLayout();
@@ -98,7 +100,7 @@
             // 
             // button_SetConfig
             // 
-            this.button_SetConfig.Location = new System.Drawing.Point(337, 636);
+            this.button_SetConfig.Location = new System.Drawing.Point(337, 673);
             this.button_SetConfig.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.button_SetConfig.Name = "button_SetConfig";
             this.button_SetConfig.Size = new System.Drawing.Size(174, 50);
@@ -212,7 +214,7 @@
             this.groupBox_WiFi.Controls.Add(this.label_CountryCode);
             this.groupBox_WiFi.Controls.Add(this.textBox_CountryCode);
             this.groupBox_WiFi.Controls.Add(this.label_CountryCode_Eg);
-            this.groupBox_WiFi.Location = new System.Drawing.Point(12, 12);
+            this.groupBox_WiFi.Location = new System.Drawing.Point(12, 49);
             this.groupBox_WiFi.Name = "groupBox_WiFi";
             this.groupBox_WiFi.Size = new System.Drawing.Size(826, 244);
             this.groupBox_WiFi.TabIndex = 61;
@@ -226,7 +228,7 @@
             this.groupBox_TcpSocketCom.Controls.Add(this.textBox_ServerIpAddr);
             this.groupBox_TcpSocketCom.Controls.Add(this.radioButton_Client);
             this.groupBox_TcpSocketCom.Controls.Add(this.label_ServerIpAddr);
-            this.groupBox_TcpSocketCom.Location = new System.Drawing.Point(12, 270);
+            this.groupBox_TcpSocketCom.Location = new System.Drawing.Point(12, 307);
             this.groupBox_TcpSocketCom.Name = "groupBox_TcpSocketCom";
             this.groupBox_TcpSocketCom.Size = new System.Drawing.Size(826, 140);
             this.groupBox_TcpSocketCom.TabIndex = 62;
@@ -252,7 +254,7 @@
             this.groupBox_EMail.Controls.Add(this.label7);
             this.groupBox_EMail.Controls.Add(this.label5);
             this.groupBox_EMail.Controls.Add(this.label1);
-            this.groupBox_EMail.Location = new System.Drawing.Point(12, 424);
+            this.groupBox_EMail.Location = new System.Drawing.Point(12, 461);
             this.groupBox_EMail.Name = "groupBox_EMail";
             this.groupBox_EMail.Size = new System.Drawing.Size(826, 201);
             this.groupBox_EMail.TabIndex = 63;
@@ -342,10 +344,34 @@
             this.label1.TabIndex = 64;
             this.label1.Text = "Your Gmail Address:";
             // 
+            // radioButton_BLE
+            // 
+            this.radioButton_BLE.AutoSize = true;
+            this.radioButton_BLE.Checked = true;
+            this.radioButton_BLE.Location = new System.Drawing.Point(12, 12);
+            this.radioButton_BLE.Name = "radioButton_BLE";
+            this.radioButton_BLE.Size = new System.Drawing.Size(68, 25);
+            this.radioButton_BLE.TabIndex = 64;
+            this.radioButton_BLE.TabStop = true;
+            this.radioButton_BLE.Text = "BLE";
+            this.radioButton_BLE.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_Wifi
+            // 
+            this.radioButton_Wifi.AutoSize = true;
+            this.radioButton_Wifi.Location = new System.Drawing.Point(101, 12);
+            this.radioButton_Wifi.Name = "radioButton_Wifi";
+            this.radioButton_Wifi.Size = new System.Drawing.Size(90, 25);
+            this.radioButton_Wifi.TabIndex = 65;
+            this.radioButton_Wifi.Text = "Wi-Fi";
+            this.radioButton_Wifi.UseVisualStyleBackColor = true;
+            // 
             // FormNwConfig
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(849, 700);
+            this.ClientSize = new System.Drawing.Size(849, 735);
+            this.Controls.Add(this.radioButton_Wifi);
+            this.Controls.Add(this.radioButton_BLE);
             this.Controls.Add(this.groupBox_EMail);
             this.Controls.Add(this.groupBox_TcpSocketCom);
             this.Controls.Add(this.groupBox_WiFi);
@@ -358,7 +384,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NwConfig";
-            this.Load += new System.EventHandler(this.FormNetwork_Load);
+            this.Load += new System.EventHandler(this.FormNwConfig_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox_WiFi.ResumeLayout(false);
@@ -369,6 +395,7 @@
             this.groupBox_EMail.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MailIntervalHour)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -401,5 +428,7 @@
         private System.Windows.Forms.TextBox textBox_GMailAppPassword;
         private System.Windows.Forms.TextBox textBox_GMailAddress;
         private System.Windows.Forms.NumericUpDown numericUpDown_MailIntervalHour;
+        private System.Windows.Forms.RadioButton radioButton_BLE;
+        private System.Windows.Forms.RadioButton radioButton_Wifi;
     }
 }

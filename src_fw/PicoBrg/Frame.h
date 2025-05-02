@@ -103,6 +103,5 @@ typedef struct _ST_FRM_RECV_DATA_INFO {
 void FRM_Init();
 void FRM_Main();
 void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf);
-void FRM_Send(PVOID pBuf, ULONG size);
 
 #endif

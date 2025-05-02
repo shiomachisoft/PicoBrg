@@ -14,7 +14,6 @@
 #include "hardware/spi.h"
 #include "hardware/dma.h"
 #include "hardware/i2c.h"
-#include "pico/i2c_slave.h"
 #include "hardware/pwm.h"
 #include "pico/multicore.h"
 #include "hardware/flash.h"
@@ -30,8 +29,11 @@
 #include "hardware/exception.h"
 
 #include "pico/cyw43_arch.h"
-#include "lwip/pbuf.h"
-#include "lwip/tcp.h"
+
+#include "Arduino.h"
+#include "WiFi.h"
+#include "BTstackLib.h"
+#include "ble/att_server.h"
 
 #include "Type.h"
 #include "Ver.h"
@@ -39,7 +41,8 @@
 #include "Wireless.h"
 #include "Gpio.h"
 #include "Uart.h"
-#include "TcpCommon.h"
+#include "Ble.h"
+#include "Tcp.h"
 #include "Flash.h"
 #include "Timer.h"
 #include "Cmd.h"
@@ -50,7 +53,6 @@
 
 // キューサイズ
 #define CMN_QUE_DATA_MAX_WL_SEND        1024
-#define CMN_QUE_DATA_MAX_WL_RECV        1024
 #define CMN_QUE_DATA_MAX_UART_SEND      1024
 #define CMN_QUE_DATA_MAX_UART_RECV      1024
 
@@ -63,14 +65,13 @@
 #define CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_USB_WL_SEND (1 << 7)  // バッファに空きがないので要求データを破棄した(USB/無線送信)
 #define CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_UART_SEND   (1 << 8)  // バッファに空きがないので要求データを破棄した(UART送信)
 #define CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_UART_RECV   (1 << 9)  // バッファに空きがないので要求データを破棄した(UART受信)
-#define CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_WL_RECV     (1 << 11) // バッファに空きがないので要求データを破棄した(無線受信)
-#define CMN_ERR_BIT_BUF_tcp_write_err               (1 << 12) // lwIPのtcp_write()がエラーになった
+#define CMN_ERR_BIT_BUF_SIZE_NOT_ENOUGH_WL_RECV     (1 << 11) // バッファに空きがないので要求データを破棄した(無線受信) ※未使用
+#define CMN_ERR_BIT_WL_SEND_ERR                     (1 << 12) // 無線送信が失敗した
 
 // [列挙体]
 // キューの種類
 typedef enum _E_CMN_QUE_KIND { 
-    CMN_QUE_KIND_WL_SEND = 0,   // 無線送信
-    CMN_QUE_KIND_WL_RECV,       // 無線受信    
+    CMN_QUE_KIND_WL_SEND = 0,   // 無線送信   
     CMN_QUE_KIND_UART_SEND,     // UART送信
     CMN_QUE_KIND_UART_RECV,     // UART受信 
     CMN_QUE_KIND_NUM            // キューの種類の数

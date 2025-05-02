@@ -4,9 +4,6 @@
 
 #include "Common.h"
 
-// [define]
-#define UART_DATA_MAX_SIZE 256 // UART受信データのバッファのサイズ
-
 #pragma pack(1)
 
 // [構造体]

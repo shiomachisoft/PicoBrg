@@ -145,8 +145,6 @@ namespace JigApp
             {
                 string strInfoMsg = "Setting changes are complete.\nThe microcontroller will be reset.\n\nPlease wait from a few seconds to several tens of seconds.";
                 UI.ShowInfoMsg(this, strInfoMsg);
-                // 再接続する
-                FormMain.Inst.Reconnect();
             }
             else
             {

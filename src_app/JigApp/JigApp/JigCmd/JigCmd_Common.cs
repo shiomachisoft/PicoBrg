@@ -82,8 +82,8 @@ namespace JigLib
             "The requested data was discarded because there was no space in the buffer (I2C transmission/reception)",
             // バッファに空きがないので要求データを破棄した(無線受信)
             "Requested data was discarded because there was no space in the buffer (wireless reception)",
-            // lwIPのtcp_write()がエラーになった
-            "lwIP's tcp_write() failed with an error."
+            // 無線送信が失敗した
+            "Wireless transmission (BLE/TCP) failed."
         };
 
         /// <summary>
