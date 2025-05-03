@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox_CountryCode = new System.Windows.Forms.TextBox();
-            this.label_CountryCode = new System.Windows.Forms.Label();
             this.textBox_IpAddr = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button_SetConfig = new System.Windows.Forms.Button();
@@ -38,7 +36,6 @@
             this.textBox_SSID = new System.Windows.Forms.TextBox();
             this.textBox_Password = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label_CountryCode_Eg = new System.Windows.Forms.Label();
             this.radioButton_Server = new System.Windows.Forms.RadioButton();
             this.radioButton_Client = new System.Windows.Forms.RadioButton();
             this.textBox_ServerIpAddr = new System.Windows.Forms.TextBox();
@@ -64,26 +61,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MailIntervalHour)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox_CountryCode
-            // 
-            this.textBox_CountryCode.Location = new System.Drawing.Point(221, 25);
-            this.textBox_CountryCode.Name = "textBox_CountryCode";
-            this.textBox_CountryCode.Size = new System.Drawing.Size(200, 28);
-            this.textBox_CountryCode.TabIndex = 44;
-            this.textBox_CountryCode.TabStop = false;
-            // 
-            // label_CountryCode
-            // 
-            this.label_CountryCode.AutoSize = true;
-            this.label_CountryCode.Location = new System.Drawing.Point(18, 34);
-            this.label_CountryCode.Name = "label_CountryCode";
-            this.label_CountryCode.Size = new System.Drawing.Size(153, 21);
-            this.label_CountryCode.TabIndex = 46;
-            this.label_CountryCode.Text = "Country Code:";
-            // 
             // textBox_IpAddr
             // 
-            this.textBox_IpAddr.Location = new System.Drawing.Point(221, 63);
+            this.textBox_IpAddr.Location = new System.Drawing.Point(221, 31);
             this.textBox_IpAddr.Name = "textBox_IpAddr";
             this.textBox_IpAddr.Size = new System.Drawing.Size(200, 28);
             this.textBox_IpAddr.TabIndex = 43;
@@ -92,7 +72,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 64);
+            this.label8.Location = new System.Drawing.Point(18, 32);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(197, 21);
             this.label8.TabIndex = 45;
@@ -100,7 +80,7 @@
             // 
             // button_SetConfig
             // 
-            this.button_SetConfig.Location = new System.Drawing.Point(337, 673);
+            this.button_SetConfig.Location = new System.Drawing.Point(337, 631);
             this.button_SetConfig.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.button_SetConfig.Name = "button_SetConfig";
             this.button_SetConfig.Size = new System.Drawing.Size(174, 50);
@@ -150,21 +130,12 @@
             this.groupBox1.Controls.Add(this.textBox_Password);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(11, 109);
+            this.groupBox1.Location = new System.Drawing.Point(11, 77);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(805, 110);
             this.groupBox1.TabIndex = 54;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "WPA2";
-            // 
-            // label_CountryCode_Eg
-            // 
-            this.label_CountryCode_Eg.AutoSize = true;
-            this.label_CountryCode_Eg.Location = new System.Drawing.Point(428, 28);
-            this.label_CountryCode_Eg.Name = "label_CountryCode_Eg";
-            this.label_CountryCode_Eg.Size = new System.Drawing.Size(230, 21);
-            this.label_CountryCode_Eg.TabIndex = 55;
-            this.label_CountryCode_Eg.Text = "e.g:Japan=JP  USA=US";
             // 
             // radioButton_Server
             // 
@@ -211,12 +182,9 @@
             this.groupBox_WiFi.Controls.Add(this.groupBox1);
             this.groupBox_WiFi.Controls.Add(this.textBox_IpAddr);
             this.groupBox_WiFi.Controls.Add(this.label8);
-            this.groupBox_WiFi.Controls.Add(this.label_CountryCode);
-            this.groupBox_WiFi.Controls.Add(this.textBox_CountryCode);
-            this.groupBox_WiFi.Controls.Add(this.label_CountryCode_Eg);
             this.groupBox_WiFi.Location = new System.Drawing.Point(12, 49);
             this.groupBox_WiFi.Name = "groupBox_WiFi";
-            this.groupBox_WiFi.Size = new System.Drawing.Size(826, 244);
+            this.groupBox_WiFi.Size = new System.Drawing.Size(826, 203);
             this.groupBox_WiFi.TabIndex = 61;
             this.groupBox_WiFi.TabStop = false;
             this.groupBox_WiFi.Text = "Wi-Fi";
@@ -228,7 +196,7 @@
             this.groupBox_TcpSocketCom.Controls.Add(this.textBox_ServerIpAddr);
             this.groupBox_TcpSocketCom.Controls.Add(this.radioButton_Client);
             this.groupBox_TcpSocketCom.Controls.Add(this.label_ServerIpAddr);
-            this.groupBox_TcpSocketCom.Location = new System.Drawing.Point(12, 307);
+            this.groupBox_TcpSocketCom.Location = new System.Drawing.Point(12, 265);
             this.groupBox_TcpSocketCom.Name = "groupBox_TcpSocketCom";
             this.groupBox_TcpSocketCom.Size = new System.Drawing.Size(826, 140);
             this.groupBox_TcpSocketCom.TabIndex = 62;
@@ -254,7 +222,7 @@
             this.groupBox_EMail.Controls.Add(this.label7);
             this.groupBox_EMail.Controls.Add(this.label5);
             this.groupBox_EMail.Controls.Add(this.label1);
-            this.groupBox_EMail.Location = new System.Drawing.Point(12, 461);
+            this.groupBox_EMail.Location = new System.Drawing.Point(12, 419);
             this.groupBox_EMail.Name = "groupBox_EMail";
             this.groupBox_EMail.Size = new System.Drawing.Size(826, 201);
             this.groupBox_EMail.TabIndex = 63;
@@ -369,7 +337,7 @@
             // FormNwConfig
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(849, 735);
+            this.ClientSize = new System.Drawing.Size(849, 693);
             this.Controls.Add(this.radioButton_Wifi);
             this.Controls.Add(this.radioButton_BLE);
             this.Controls.Add(this.groupBox_EMail);
@@ -400,9 +368,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBox_CountryCode;
-        private System.Windows.Forms.Label label_CountryCode;
         private System.Windows.Forms.TextBox textBox_IpAddr;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button_SetConfig;
@@ -411,7 +376,6 @@
         private System.Windows.Forms.TextBox textBox_SSID;
         private System.Windows.Forms.TextBox textBox_Password;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label_CountryCode_Eg;
         private System.Windows.Forms.RadioButton radioButton_Server;
         private System.Windows.Forms.RadioButton radioButton_Client;
         private System.Windows.Forms.TextBox textBox_ServerIpAddr;
