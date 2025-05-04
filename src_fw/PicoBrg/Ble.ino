@@ -10,13 +10,14 @@ static ST_NOTIFY_DATA f_stNotifyData; // 通知データ
 static bool f_isNotifying = false; // 通知処理中か否か
 
 // アドバタイズデータ
-const uint8_t f_advertisingData[] = {
+static const uint8_t f_advertisingData[] = {
     0x02, 0x01, 0x06, // Flags: LE General Discoverable Mode, BR/EDR Not Supported
     0x11, 0x07, // Complete List of 128-bit Service Class UUIDs
     0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7,
     0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF, // custom_uuid
-    8, 0x09, // Complete Local Name
-    'P', 'i', 'c', 'o', 'B', 'r', 'g' // local_name
+    8,                                  // Length:「Type + Value」の長さ
+    0x09,                               // Type:    Complete Local Name
+    'P', 'i', 'c', 'o', 'B', 'r', 'g'   // Value:   local_name 
 };
 
 // [関数プロトタイプ宣言]
@@ -24,7 +25,8 @@ static void BLE_DeviceConnectedCallback(BLEStatus status, BLEDevice* pDevice);
 static void BLE_DeviceDisconnectedCallback(BLEDevice* pDevice);
 static int BLE_CharacteristicWriteCallback(uint16_t value_handle, uint8_t* pBuf, uint16_t size);
 static void BLE_CharacteristicNotifiableCallback(void *context);
-  
+static void BLE_Init();  
+
 // デバイス接続通知のコールバック
 static void BLE_DeviceConnectedCallback(BLEStatus status, BLEDevice* pDevice) 
 {
@@ -138,7 +140,7 @@ void BLE_Main()
 }
 
 // BLEを初期化
-void BLE_Init()
+static void BLE_Init()
 {
     // set callbacks
     BTstack.setBLEDeviceConnectedCallback(BLE_DeviceConnectedCallback);

@@ -2,6 +2,7 @@
 #include "Common.h"
 
 // [ファイルスコープ変数]
+static bool f_isCpu0SetupCompleted = false; // CPUコア0のセットアップが完了済みか否か
 static bool f_isWillClearWdtByCore1 = false; // CPUコア1によってWDTタイマをクリアする番か否か
 
 // [関数プロトタイプ宣言]
@@ -35,22 +36,26 @@ void setup()
 		// FWエラーを設定
 		CMN_SetErrorBits(CMN_ERR_BIT_WDT_RESET, true);
 	}
+
+	f_isCpu0SetupCompleted = true;
 }
 
 // CPUコア0のメインループ
 void loop()
 {
-	if (!f_isWillClearWdtByCore1) { // CPUコア0によってWDTタイマをクリアする番の場合
-		// WDTタイマをクリア
-		TIMER_WdtClear();
-		f_isWillClearWdtByCore1 = true;
-	}	
+	if (f_isCpu0SetupCompleted) { // CPUコア0のセットアップが完了済み
+		if (!f_isWillClearWdtByCore1) { // CPUコア0によってWDTタイマをクリアする番の場合
+			// WDTタイマをクリア
+			TIMER_WdtClear();
+			f_isWillClearWdtByCore1 = true;
+		}	
 
-	// USB受信データ取り出し⇒コマンド解析・実行
-	FRM_Main();
+		// USB受信データ取り出し⇒コマンド解析・実行
+		FRM_Main();
 
-	// UARTメイン処理
-	UART_Main();
+		// UARTメイン処理
+		UART_Main();
+	}
 }
 
 // CPUコア1のセットアップ

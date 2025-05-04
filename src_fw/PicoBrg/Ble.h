@@ -14,7 +14,6 @@ typedef struct _ST_NOTIFY_DATA {
 #pragma pack()
 
 // [関数プロトタイプ宣言]
-void BLE_Init();
 void BLE_Main();
 bool BLE_ReqToNotify(uint8_t* pBuf, uint16_t size);
 bool BLE_IsConnected();
