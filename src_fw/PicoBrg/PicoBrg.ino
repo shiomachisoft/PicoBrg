@@ -91,7 +91,7 @@ static void MAIN_ControlLed()
 	if (true == TIMER_IsLedChangeTiming()) {
 		// LEDのON/OFFを決定
 		if (true == tcp_is_ap_connected() || (true == BLE_IsConnected())) { 
-			// WiFiモードでAPと接続済みか否か ,または, BLEモードでセントラルと接続済みか否か
+			// WiFiモードでAPと接続済み ,または, BLEモードでセントラルと接続済み
 			bLedOn = true;
 		} 
 		else {
