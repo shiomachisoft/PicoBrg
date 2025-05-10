@@ -5,7 +5,7 @@
 - (3)Pico Wに対するモード設定・Wi-Fi設定・UART設定はPCアプリを使用し、Pico WのFlashメモリに保存します。
 
 ## 2. システム構成  
-![image](https://github.com/user-attachments/assets/27f0e889-2389-413e-8f2c-d3f547c4eef1)
+![システム構成2](https://github.com/user-attachments/assets/1ee0fa09-7e66-465e-8440-b9c76d92ea10)
 
 ## 3. 使い方  
 マニュアルを参照。  
