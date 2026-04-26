@@ -1,16 +1,16 @@
 // Copyright © 2024 Shiomachi Software. All rights reserved.
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef TMR_H
+#define TMR_H
 
 #include "Common.h"
 
-// [関数プロトタイプ宣言]
-void TIMER_WdtClear();
-bool TIMER_IsStabilizationWaitTimePassed();
-void TIMER_ClearRecvTimeout();
-bool TIMER_IsRecvTimeout();
-bool TIMER_IsLedChangeTiming();
-void TIMER_ClearLedTimer();
-void TIMER_Init();
+// Function prototypes / [関数プロトタイプ宣言]
+void TMR_WdtClear();
+bool TMR_IsStabilizationWaitTimePassed();
+void TMR_ClearRecvTimeout();
+bool TMR_IsRecvTimeout();
+bool TMR_IsLedChangeTiming();
+void TMR_ClearLedTimer();
+void TMR_Init();
 
 #endif
