@@ -93,11 +93,11 @@ Below is the procedure for writing the FW to Pico W.
 1. While pressing the white button (BOOTSEL button) on Pico W, connect Pico W to the PC with a USB cable.  
    The RPI-RP2 drive will then be recognized.
 
-   !Drive Recognition
+   ![Drive Recognition](images/Pictures/RPI_DRIVE.png)
 
 2. Drag and drop `PicoBrg_XXXXXXXX.uf2` into the RPI-RP2 drive.
 
-   !File Drag
+   ![File Drag](images/Pictures/RPI_DRAG.png)
 
 This completes the firmware writing.
 
@@ -117,7 +117,7 @@ This completes the firmware writing.
    You can check if `.NET Framework 4.8` is enabled on Windows by following the steps below.  
    Open **Control Panel** > **Programs** > **Turn Windows features on or off**.
 
-   !Turn Windows features on or off
+   ![Turn Windows features on or off](images/Pictures/DotNet.png)
 
    => Ensure that the checkbox for `.NET Framework 4.8` is solid blue.
 
@@ -173,7 +173,7 @@ The Nordic UART Service (NUS) is used for BLE communication.
 
 #### Main Screen
 
-!Main Screen
+![Main Screen](images/Pictures/main.png)
 
 #### Startup and Connection
 
@@ -181,19 +181,19 @@ The Nordic UART Service (NUS) is used for BLE communication.
    > **Note:**   
    > Waiting for about 10 seconds is because it takes time for Windows to recognize Pico W's virtual COM.  
    Double-clicking `PicoJigApp.exe` displays the main screen.
-2. Leave the [USB Mode] radio button in [1] on the <Main Screen> ON.
-3. Select the Pico W COM number in [2] on the <Main Screen> and press the [3] button.  
-   If the display in [4] on the <Main Screen> changes to `connected`, it is successfully connected to Pico W.
+2. Leave the [USB Mode] radio button in [1] on the \<Main Screen\> ON.
+3. Select the Pico W COM number in [2] on the \<Main Screen\> and press the [3] button.  
+   If the display in [4] on the \<Main Screen\> changes to `connected`, it is successfully connected to Pico W.
 
-When the display in [4] on the <Main Screen> changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] on the <Main Screen> become enabled.
+When the display in [4] on the \<Main Screen\> changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] on the \<Main Screen\> become enabled.
 
 ### Communication Mode and Wi-Fi Settings
 
 #### Network Settings Screen
 
-The Network Settings screen is displayed when you press the [NW Config] button in [5] on the <Main Screen>.
+The Network Settings screen is displayed when you press the [NW Config] button in [5] on the \<Main Screen\>.
 
-!Network Settings Screen
+![Network Settings Screen](images/Pictures/network.png)
 
 1. Select the communication mode with the radio buttons in [1].
    
@@ -218,9 +218,9 @@ The Network Settings screen is displayed when you press the [NW Config] button i
 
 #### UART Screen
 
-The UART screen is displayed when you press the [UART] button in [5] on the <Main Screen>.
+The UART screen is displayed when you press the [UART] button in [5] on the \<Main Screen\>.
 
-!UART Screen
+![UART Screen](images/Pictures/uart.png)
 
 You can change the UART settings by following the steps below.
 
@@ -240,7 +240,7 @@ The following setting data is saved in Pico W's Flash memory.
 - UART Settings
 
 > **Note:**       
-> If you stop using PicoBrg or want to initialize it, we recommend erasing the setting data in the Flash memory with the button [6] on the <Main Screen>.
+> If you stop using PicoBrg or want to initialize it, we recommend erasing the setting data in the Flash memory with the button [6] on the \<Main Screen\>.
 
 ## Checking BLE to UART Conversion in BLE Mode
 
@@ -382,8 +382,8 @@ The following setting data is saved in Pico W's Flash memory.
 3. Configure Tera Term for TCP communication as shown in the figure below.  
    * For the IP address in the figure below, specify the IP address of Pico W configured in the Wi-Fi settings.
 
-   !Tera Term1
-   !Tera Term2
+   ![Tera Term1](images/Pictures/teraterm1.png)
+   ![Tera Term2](images/Pictures/teraterm2.png)
 
 4. Separately, launch Tera Term for COM communication and connect it to the serial port (COM number) of the Raspberry Pi Debug Probe.
 5. Configure the serial port settings for Tera Term for COM communication.  
@@ -396,7 +396,7 @@ The following setting data is saved in Pico W's Flash memory.
 **[Wi-Fi -> UART]**  
 
 1. In Tera Term for TCP communication, enter the string you want to send via TCP from Tera Term to Pico W, then press the Enter key.
-   !Tera Term3
+   ![Tera Term3](images/Pictures/teraterm3.png)
    => The Wi-Fi -> UART converted data will be displayed in Tera Term for COM communication.
 
 **[UART -> Wi-Fi]**  
