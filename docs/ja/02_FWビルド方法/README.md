@@ -2,7 +2,7 @@
 
 - 下記のバージョンのArduino IDEをWindowsにインストールします。
 
-   - arduino-ide_2.3.8_Windows_64bit.exe
+  - arduino-ide_2.3.8_Windows_64bit.exe
 
 - src_fwフォルダ内のPicoBrgフォルダをPCの適当な場所にコピーします。
 
@@ -10,7 +10,7 @@
 
 - 「ファイル」⇒「基本設定」で、「追加のボードマネージャのURL」に下記を入力します。
 
-https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+`https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json`
 
 ![board_manager](images/Pictures/board_manager.png)
 

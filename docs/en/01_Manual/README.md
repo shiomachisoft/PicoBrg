@@ -181,29 +181,29 @@ The Nordic UART Service (NUS) is used for BLE communication.
    > **Note:**   
    > Waiting for about 10 seconds is because it takes time for Windows to recognize Pico W's virtual COM.  
    Double-clicking `PicoJigApp.exe` displays the main screen.
-2. Leave the [USB Mode] radio button in [1] on the \<Main Screen\> ON.
-3. Select the Pico W COM number in [2] on the \<Main Screen\> and press the [3] button.  
-   If the display in [4] on the \<Main Screen\> changes to `connected`, it is successfully connected to Pico W.
+2. Leave the [USB Mode] radio button in [1] on the [Main Screen] ON.
+3. Select the Pico W COM number in [2] on the [Main Screen] and press the [3] button.  
+   If the display in [4] on the [Main Screen] changes to `connected`, it is successfully connected to Pico W.
 
-When the display in [4] on the \<Main Screen\> changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] on the \<Main Screen\> become enabled.
+When the display in [4] on the [Main Screen] changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] on the [Main Screen] become enabled.
 
 ### Communication Mode and Wi-Fi Settings
 
 #### Network Settings Screen
 
-The Network Settings screen is displayed when you press the [NW Config] button in [5] on the \<Main Screen\>.
+The Network Settings screen is displayed when you press the [NW Config] button in [5] on the [Main Screen].
 
 ![Network Settings Screen](images/Pictures/network.png)
 
 1. Select the communication mode with the radio buttons in [1].
    
-   *** The following settings are required only for Wi-Fi mode.**  
+   * **The following settings are required only for Wi-Fi mode.**  
 
 2. Enter the IP address of Pico W in the box [2].  
    - Example: If you want to set the Pico W IP address to `192.168.10.100`
      - `192.168.10.100`
    
-   *** The socket port number is fixed at `7777`.**
+   * **The socket port number is fixed at `7777`.**
 
 3. Enter the SSID of the Wi-Fi router in the box [3].
    > **SSID Conditions:**
@@ -218,7 +218,7 @@ The Network Settings screen is displayed when you press the [NW Config] button i
 
 #### UART Screen
 
-The UART screen is displayed when you press the [UART] button in [5] on the \<Main Screen\>.
+The UART screen is displayed when you press the [UART] button in [5] on the [Main Screen].
 
 ![UART Screen](images/Pictures/uart.png)
 
@@ -227,7 +227,7 @@ You can change the UART settings by following the steps below.
 1. Select the baud rate in [1].
 2. Select the stop bit in [2].
 3. Select the parity in [3].   
-   *** The data bit is fixed at `8`.**
+   * **The data bit is fixed at `8`.**
 4. Press the button [4].  
    Pressing the button [4] configures the UART settings.
 
@@ -240,7 +240,7 @@ The following setting data is saved in Pico W's Flash memory.
 - UART Settings
 
 > **Note:**       
-> If you stop using PicoBrg or want to initialize it, we recommend erasing the setting data in the Flash memory with the button [6] on the \<Main Screen\>.
+> If you stop using PicoBrg or want to initialize it, we recommend erasing the setting data in the Flash memory with the button [6] on the [Main Screen].
 
 ## Checking BLE to UART Conversion in BLE Mode
 
@@ -253,9 +253,9 @@ The following setting data is saved in Pico W's Flash memory.
 
 1. Use the PC app to set Pico W to BLE mode.
 2. Install the "Serial Bluetooth Terminal" app on your Android smartphone.  
-   *** Please install at your own risk.**
+   * **Please install at your own risk.**
 3. Install Tera Term on your Windows PC.  
-   *** Please install at your own risk.**
+   * **Please install at your own risk.**
 4. Connect the pins of the Raspberry Pi Debug Probe as follows:
    - Raspberry Pi Debug Probe UART TX  
      -> Connect to Pico W UART0 RX = GP1 = Pin 2
@@ -275,7 +275,7 @@ The following setting data is saved in Pico W's Flash memory.
    - Parity: None
 4. Launch Serial Bluetooth Terminal on your smartphone.
 
-   *** From here on, unless otherwise noted, operations are performed on the Serial Bluetooth Terminal.**
+   * **From here on, unless otherwise noted, operations are performed on the Serial Bluetooth Terminal.**
 5. Press "Devices" from the menu.
 6. Press the "Bluetooth LE" tab.
 7. Press "SCAN".  
@@ -301,9 +301,9 @@ The following setting data is saved in Pico W's Flash memory.
 
 1. Use the PC app to set Pico W to BLE mode.
 2. Install the "LightBlue" app on your iPhone.  
-   *** Please install at your own risk.**
+   * **Please install at your own risk.**
 3. Install Tera Term on your Windows PC.  
-   *** Please install at your own risk.**
+   * **Please install at your own risk.**
 4. Connect the pins of the Raspberry Pi Debug Probe as follows:
    - Raspberry Pi Debug Probe UART TX  
      -> Connect to Pico W UART0 RX = GP1 = Pin 2
@@ -323,7 +323,7 @@ The following setting data is saved in Pico W's Flash memory.
    - Parity: None
 4. Launch LightBlue on your iPhone.
  
-   *** From here on, unless otherwise noted, operations are performed on LightBlue.**
+   * **From here on, unless otherwise noted, operations are performed on LightBlue.**
 5. Select `PicoBrg` from the list of advertising devices and press "Connect".  
    => The UUID list will be displayed.
 
@@ -367,7 +367,7 @@ The following setting data is saved in Pico W's Flash memory.
 3. Confirm that the LED of Pico W has changed from flashing to solid.  
    (* When it is solid, Pico W is connected to the Wi-Fi router)
 4. Install Tera Term on your Windows PC.  
-   *** Please install at your own risk.**
+   * **Please install at your own risk.**
 5. Connect the pins of the Raspberry Pi Debug Probe as follows:
    - Raspberry Pi Debug Probe UART TX  
      -> Connect to Pico W UART0 RX = GP1 = Pin 2
