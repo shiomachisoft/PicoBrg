@@ -33,7 +33,9 @@ void setup()
 	TMR_Init();
 
 	// Wait until stabilization time after startup has passed / 起動後の安定待ち時間が経過するのを待つ
-	while (!TMR_IsStabilizationWaitTimePassed()) {}
+	while (!TMR_IsStabilizationWaitTimePassed()) {
+		tight_loop_contents();
+	}
 
 	if (watchdog_enable_caused_reboot()) { // If rebooted by WDT timeout of watchdog_enable() instead of watchdog_reboot() / watchdog_reboot()ではなくwatchdog_enable()のWDTタイムアウトで再起動していた場合
 		// Set FW error / FWエラーを設定
@@ -63,7 +65,9 @@ void loop()
 void setup1() 
 {
 	// Wait for CPU core 0 setup completion / CPUコア0のセットアップ完了を待つ
-	while (!f_isCpu0SetupCompleted) {}
+	while (!f_isCpu0SetupCompleted) {
+		tight_loop_contents();
+	}
 
 	// Initialize wireless / 無線を初期化
 	WL_Init();

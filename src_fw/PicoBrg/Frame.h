@@ -49,7 +49,7 @@ typedef enum _E_FRM_ERR {
     FRM_ERR_DATA_SIZE,           // Invalid data size / データサイズが不正  
     FRM_ERR_PARAM,               // Invalid parameter / 引数が不正
     FRM_ERR_BUF_NOT_ENOUGH,      // Not enough buffer space / バッファに空きがない
-    FRM_ERR_I2C_NO_DEVICE        // I2C:address not acknowledged, or, no device present. 
+    FRM_ERR_I2C_NO_DEVICE        // I2C:address not acknowledged, or, no device present. / I2C:アドレスが応答しない、またはデバイスが存在しない
 } E_FRM_ERR;
 
 #pragma pack(1)
@@ -89,7 +89,7 @@ typedef struct _ST_FRM_NOTIFY_FRAME {
 
 // USB receive data info / USB受信データ情報
 typedef struct _ST_FRM_RECV_DATA_INFO {
-    ULONG reqFrmSize ; 		    // Received size of request frame / 要求フレームの受信済みサイズ
+    ULONG reqFrmSize; 		    // Received size of request frame / 要求フレームの受信済みサイズ
     ULONG recvDataSize;	        // Received size of data size part / データサイズ部の受信済みサイズ
     ULONG recvChecksum; 	    // Received size of checksum part / チェックサム部の受信済みサイズ
     ST_FRM_REQ_FRAME stReqFrm; 	// Request frame / 要求フレーム 

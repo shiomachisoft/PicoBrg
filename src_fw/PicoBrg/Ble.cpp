@@ -4,8 +4,8 @@
 // [define] / [マクロ定義]
 // Nordic UART Service (NUS)
 #define NUS_SERVICE_UUID    "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" // Service UUID / サービスUUID
-#define NUS_RX_CHAR_UUID    "6E400002-B5A3-F393-E0A9-E50E24DCCA9E" // Central -> Peripheral
-#define NUS_TX_CHAR_UUID    "6E400003-B5A3-F393-E0A9-E50E24DCCA9E" // Peripheral -> Central
+#define NUS_RX_CHAR_UUID    "6E400002-B5A3-F393-E0A9-E50E24DCCA9E" // Central -> Peripheral / セントラル -> ペリフェラル
+#define NUS_TX_CHAR_UUID    "6E400003-B5A3-F393-E0A9-E50E24DCCA9E" // Peripheral -> Central / ペリフェラル -> セントラル
 
 // File scope variables / [ファイルスコープ変数]
 static BLEDevice* f_pDevice = NULL; // Connection device / 接続デバイス
@@ -26,8 +26,8 @@ static const uint8_t f_advertisingData[] = {
     0x9E, 0xCA, 0xDC, 0x24, 0x0E, 0xE5, 0xA9, 0xE0,
     0x93, 0xF3, 0xA3, 0xB5, 0x01, 0x00, 0x40, 0x6E, // NUS_SERVICE_UUID
     8,                                  // Length: Length of "Type + Value" / Length:「Type + Value」の長さ
-    0x09,                               // Type:    Complete Local Name
-    'P', 'i', 'c', 'o', 'B', 'r', 'g'   // Value:   local_name 
+    0x09,                               // Type: Complete Local Name / Type:完全なローカル名
+    'P', 'i', 'c', 'o', 'B', 'r', 'g'   // Value: local_name / Value:ローカル名 
 };
 
 // Function prototypes / [関数プロトタイプ宣言]
@@ -39,18 +39,18 @@ static void BLE_CharacteristicNotifiableCallback(void *context);
 // Initialize BLE / BLEを初期化
 void BLE_Init()
 {
-    // set callbacks
+    // Set callbacks / コールバックを設定
     BTstack.setBLEDeviceConnectedCallback(BLE_DeviceConnectedCallback);
     BTstack.setBLEDeviceDisconnectedCallback(BLE_DeviceDisconnectedCallback);
     BTstack.setGATTCharacteristicWrite(BLE_CharacteristicWriteCallback);
 
-    // setup GATT Database
+    // Setup GATT Database / GATTデータベースをセットアップ
     // Nordic UART Service (NUS)
     BTstack.addGATTService(new UUID(NUS_SERVICE_UUID));
     f_characteristicWriteHandle = BTstack.addGATTCharacteristicDynamic(new UUID(NUS_RX_CHAR_UUID), ATT_PROPERTY_WRITE | ATT_PROPERTY_WRITE_WITHOUT_RESPONSE, 0);
     f_characteristicNotifyHandle = BTstack.addGATTCharacteristicDynamic(new UUID(NUS_TX_CHAR_UUID), ATT_PROPERTY_NOTIFY, 0);
 
-    // startup Bluetooth and activate advertisements
+    // Startup Bluetooth and activate advertisements / Bluetoothを起動し、アドバタイズを有効化
     BTstack.setup();
     BTstack.setAdvData(sizeof(f_advertisingData), f_advertisingData);
     BTstack.startAdvertising();
@@ -63,7 +63,7 @@ void BLE_Main()
     BTstack.loop();
 }
 
-// Whether connected to central / セントラルと接続済みか否か
+// Get whether connected to central / セントラルと接続済みか否かを取得
 bool BLE_IsConnected()
 {
     return (f_pDevice != NULL && f_isNotifyEnabled) ? true : false;

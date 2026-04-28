@@ -133,9 +133,9 @@ void CMN_ClearQue(ULONG iQue, bool bSpinLock)
 // The definitions of Pico's critical_section(spin lock) and mutex are as follows. / Picoのcritical_section(spin lock)とmutexの定義は下記。
 // https://www.raspberrypi.com/documentation/pico-sdk/high_level.html#pico_sync
 // critical_section(spin lock):
-// Critical Section API for short-lived mutual exclusion safe for IRQ and multi-core. 
+// Critical Section API for short-lived mutual exclusion safe for IRQ and multi-core. / IRQおよびマルチコアで安全な、短寿命の相互排他のためのクリティカルセクションAPI。
 // mutex:
-// Mutex API for non IRQ mutual exclusion between cores. 
+// Mutex API for non IRQ mutual exclusion between cores. / コア間の非IRQ相互排他のためのミューテックスAPI。
 void CMN_EntrySpinLock()
 {
 	critical_section_enter_blocking(&f_stSpinLock);
@@ -178,7 +178,7 @@ void CMN_SetErrorBits(ULONG errorBits, bool bSpinLock)
 			CMN_EntrySpinLock();
 		}
 
-		f_errorBits |= errorBits; // OR operation is not atomic, so exclude / OR演算はアトミックではないので排他する
+		f_errorBits |= errorBits; // OR operation is not atomic, so use mutual exclusion / OR演算はアトミックではないので排他する
 
 		if (bSpinLock) {
 			CMN_ExitSpinLock();
@@ -212,14 +212,18 @@ void CMN_ClearFwErrorBits(bool bSpinLock)
 void CMN_WdtEnableReboot()
 {
     watchdog_enable(1, true);
-    while (1) {}		
+    while (1) {
+        tight_loop_contents();
+    }
 }
 
 // Reboot immediately on WDT timeout without using watchdog_enable() / watchdog_enable()を使用しないで即WDTタイムアウトで再起動する
 void CMN_WdtRebootWithoutEnable()
 {
     watchdog_reboot(0, 0, 1);
-    while(1) {};   	
+    while(1) {
+        tight_loop_contents();
+    }
 }
 
 // Initialize common library / 共通ライブラリを初期化

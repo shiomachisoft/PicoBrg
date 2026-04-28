@@ -1,6 +1,6 @@
 // Copyright © 2024 Shiomachi Software. All rights reserved.
-#ifndef TMR_H
-#define TMR_H
+#ifndef TIMER_H
+#define TIMER_H
 
 #include "Common.h"
 

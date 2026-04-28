@@ -95,7 +95,7 @@ void TCP_Main()
             }
             else { 
                 // Processing when Pico is a TCP server and a connection request comes from a new client / PicoがTCPサーバーの場合で、新しいクライアントから接続要求が来た場合の処理
-                // (Relief when an existing client forcefully disconnects or remains in a half-open state and reconnects) / (既存のクライアントが強制切断・ハーフオープン状態になったまま再接続してきた場合の救済)
+                // (Recovery when an existing client forcefully disconnects or remains in a half-open state and reconnects) / (既存のクライアントが強制切断・ハーフオープン状態になったまま再接続してきた場合の救済)
                 if (!pstFlashData->stNwConfig.isClient) {
                     WiFiClient newClient = f_tcpServer.accept();
                     if (newClient) {
@@ -134,7 +134,7 @@ static void TCP_ConnectToAp(ST_FLASH_DATA* pstFlashData)
 
         // Securely reset the previous connection state (internal state) before trying to connect / 前回の接続状態(内部ステート)を確実にリセットしてから接続を試みる
         WiFi.disconnect();
-        // Connect to WPA/WPA2 network.
+        // Connect to WPA/WPA2 network / WPA/WPA2ネットワークに接続
         WiFi.begin(pstFlashData->stNwConfig.szSsid, pstFlashData->stNwConfig.szPassword);
     }
 
@@ -292,7 +292,7 @@ void TCP_Init(ST_FLASH_DATA* pstFlashData)
     // Default gateway is unnecessary as it's dedicated to local network (specify 0.0.0.0) / ローカルネットワーク専用のため、デフォルトゲートウェイは不要(0.0.0.0を指定)
     IPAddress gateway(0, 0, 0, 0); 
     // Specify typical /24 for subnet mask to communicate only within the same network / 同一ネットワーク内でのみ通信するためサブネットマスクは一般的な /24 を指定
-    IPAddress subnet(255, 255, 255, 0); // 一般的な /24
+    IPAddress subnet(255, 255, 255, 0); // Typical /24 / 一般的な /24
     
     WiFi.config(ip, gateway, subnet);    
     
