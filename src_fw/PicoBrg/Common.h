@@ -90,7 +90,7 @@ typedef struct _ST_QUE {
 bool CMN_Enqueue(ULONG iQue, PVOID pData, bool bSpinLock);
 bool CMN_Dequeue(ULONG iQue, PVOID pData, bool bSpinLock);
 void CMN_ClearQue(ULONG iQue, bool bSpinLock);
-void CMN_EntrySpinLock();
+void CMN_EnterSpinLock();
 void CMN_ExitSpinLock();
 void CMN_SetErrorBits(ULONG errorBits, bool bSpinLock);
 ULONG CMN_GetFwErrorBits();

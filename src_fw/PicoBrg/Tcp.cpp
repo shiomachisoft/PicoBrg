@@ -15,7 +15,7 @@ static volatile E_TCP_PHASE f_ePhase = E_TCP_PHASE_WIFI_NOT_INIT; // Phase / フ
 static volatile uint64_t f_startUsTryConnectToAp = 0;
 static volatile uint64_t f_startUsKeepConnectWithAp = 0;
 static volatile uint64_t f_startUsTryConnectToServer = 0;
-static volatile bool f_isTcpServerBegan = false; // Whether TCP server has started / TCPサーバーを開始済みか否か
+static volatile bool f_isTcpServerBegun = false; // Whether TCP server has started / TCPサーバーを開始済みか否か
 
 // Function prototypes / [関数プロトタイプ宣言]
 static void TCP_ConnectToAp(ST_FLASH_DATA* pstFlashData);
@@ -77,9 +77,9 @@ void TCP_Main()
             }
             else { // When Pico is a TCP server / PicoがTCPサーバーの場合
                 // Start TCP server / TCPサーバーを開始
-                if (!f_isTcpServerBegan) {
+                if (!f_isTcpServerBegun) {
                     f_tcpServer.begin();   
-                    f_isTcpServerBegan = true;
+                    f_isTcpServerBegun = true;
                 }                    
                 // Accept / アクセプト
                 client = f_tcpServer.accept();
@@ -231,7 +231,7 @@ static void TCP_Close(bool bResetWifi)
 
     if (bResetWifi) {
         f_tcpServer.stop();
-        f_isTcpServerBegan = false;
+        f_isTcpServerBegun = false;
         f_ePhase = E_TCP_PHASE_WIFI_INITED; // Return the phase to E_TCP_PHASE_WIFI_INITED / フェーズをE_TCP_PHASE_WIFI_INITEDに戻す
     }
     else {

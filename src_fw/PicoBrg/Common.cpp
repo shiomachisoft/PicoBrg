@@ -18,7 +18,7 @@ bool CMN_Enqueue(ULONG iQue, PVOID pData, bool bSpinLock)
 	ULONG errorBits = 0;
 
 	if (bSpinLock) {
-		CMN_EntrySpinLock(); // Acquire spin lock / スピンロックを獲得
+		CMN_EnterSpinLock(); // Acquire spin lock / スピンロックを獲得
 	}	
 
 	if ((pstQue->head == (pstQue->tail + 1) % pstQue->max)) { 
@@ -78,7 +78,7 @@ bool CMN_Dequeue(ULONG iQue, PVOID pData, bool bSpinLock)
 	UCHAR* puchr;
 	
 	if (bSpinLock) {
-		CMN_EntrySpinLock(); // Acquire spin lock / スピンロックを獲得
+		CMN_EnterSpinLock(); // Acquire spin lock / スピンロックを獲得
 	}
 
     if (pstQue->head == pstQue->tail) {
@@ -116,7 +116,7 @@ void CMN_ClearQue(ULONG iQue, bool bSpinLock)
 	ST_QUE *pstQue = &f_astQue[iQue];
 	
 	if (bSpinLock) {
-		CMN_EntrySpinLock(); // Acquire spin lock / スピンロックを獲得
+		CMN_EnterSpinLock(); // Acquire spin lock / スピンロックを獲得
 	}
 
 	pstQue->head = 0;
@@ -136,7 +136,7 @@ void CMN_ClearQue(ULONG iQue, bool bSpinLock)
 // Critical Section API for short-lived mutual exclusion safe for IRQ and multi-core. / IRQおよびマルチコアで安全な、短寿命の相互排他のためのクリティカルセクションAPI。
 // mutex:
 // Mutex API for non IRQ mutual exclusion between cores. / コア間の非IRQ相互排他のためのミューテックスAPI。
-void CMN_EntrySpinLock()
+void CMN_EnterSpinLock()
 {
 	critical_section_enter_blocking(&f_stSpinLock);
 }
@@ -175,7 +175,7 @@ void CMN_SetErrorBits(ULONG errorBits, bool bSpinLock)
 {
 	if (errorBits != 0) {
 		if (bSpinLock) {
-			CMN_EntrySpinLock();
+			CMN_EnterSpinLock();
 		}
 
 		f_errorBits |= errorBits; // OR operation is not atomic, so use mutual exclusion / OR演算はアトミックではないので排他する
@@ -196,7 +196,7 @@ ULONG CMN_GetFwErrorBits()
 void CMN_ClearFwErrorBits(bool bSpinLock)
 {
 	if (bSpinLock) {
-		CMN_EntrySpinLock();
+		CMN_EnterSpinLock();
 	}
 
 	f_errorBits = 0;

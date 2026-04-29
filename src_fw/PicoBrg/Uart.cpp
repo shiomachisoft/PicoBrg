@@ -12,7 +12,7 @@
 #define UART_DEFAULT_PARITY    UART_PARITY_NONE // Parity / パリティ
 
 // File scope variables / [ファイルスコープ変数]
-static volatile bool f_isSentFirstByte= false; // Whether 1st byte has been sent / 1byte目を送信済みか否か
+static volatile bool f_isSentFirstByte = false; // Whether 1st byte has been sent / 1byte目を送信済みか否か
 static volatile bool f_hasPendingData = false; // Whether there is pending wireless send data / 無線送信保留中のデータがあるか否か
 static volatile UCHAR f_pendingData = 0;       // Pending wireless send data / 無線送信保留中のデータ
 
@@ -111,7 +111,7 @@ void UART_Main()
 static void UART_Recv()
 {
     while (true) {
-        CMN_EntrySpinLock(); // Acquire spin lock / スピンロックを獲得
+        CMN_EnterSpinLock(); // Acquire spin lock / スピンロックを獲得
 
         // If there is no pending data, try to dequeue new data / 未送信のデータがない場合、新しくデキューを試みる
         if (!f_hasPendingData) {
@@ -144,7 +144,7 @@ static void UART_Recv()
 // Clear pending UART receive data / 保留中のUART受信データをクリアする
 void UART_ClearPendingData()
 {
-    CMN_EntrySpinLock(); // Acquire spin lock / スピンロックを獲得
+    CMN_EnterSpinLock(); // Acquire spin lock / スピンロックを獲得
     f_hasPendingData = false;
     f_pendingData = 0;
     CMN_ExitSpinLock(); // Release spin lock / スピンロックを解放
