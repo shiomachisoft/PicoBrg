@@ -27,7 +27,7 @@ typedef struct _ST_NW_CONFIG2 {
 void WL_Init();
 void WL_Main();
 void WL_SendMain();
-void WL_SetDefault(ST_NW_CONFIG2 *pstConfig);
+void WL_GetDefaultConfig(ST_NW_CONFIG2 *pstConfig);
 bool WL_IsConnected();
 
 #endif

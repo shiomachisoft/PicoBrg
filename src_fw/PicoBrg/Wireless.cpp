@@ -140,7 +140,7 @@ void WL_SendMain()
 }
 
 // Store default values in ST_NW_CONFIG2 structure / ST_NW_CONFIG2構造体にデフォルト値を格納
-void WL_SetDefault(ST_NW_CONFIG2 *pstConfig)
+void WL_GetDefaultConfig(ST_NW_CONFIG2 *pstConfig)
 {
     memset(pstConfig, 0, sizeof(ST_NW_CONFIG2)); // Zero clear entire structure / 構造体全体をゼロクリア
 

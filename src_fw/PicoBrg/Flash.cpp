@@ -64,8 +64,8 @@ void FLASH_Read(ST_FLASH_DATA *pstFlashData)
         memset(pstFlashData, 0, sizeof(ST_FLASH_DATA));
         strcpy(pstFlashData->szFwName, FW_NAME);
         pstFlashData->fwVer = FW_VER;
-        UART_SetDefault(&pstFlashData->stUartConfig);
-        WL_SetDefault(&pstFlashData->stNwConfig);
+        UART_GetDefaultConfig(&pstFlashData->stUartConfig);
+        WL_GetDefaultConfig(&pstFlashData->stNwConfig);
     }
 }
 
