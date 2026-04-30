@@ -99,6 +99,6 @@ typedef struct _ST_FRM_RECV_DATA_INFO {
 // Function prototypes / [関数プロトタイプ宣言]
 void FRM_Init();
 void FRM_Main();
-void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf);
+void FRM_SendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf);
 
 #endif

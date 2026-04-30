@@ -81,7 +81,7 @@ static void CMD_ExecReqCmd_GetFwInfo(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame / 応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);
 }
 
 // Execute change UART config command / UART通信設定変更コマンドの実行
@@ -115,7 +115,7 @@ static void CMD_ExecReqCmd_SetUartConfig(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame regardless of success/failure / 成功・失敗に関わらず応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL);
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL);
 
     if (errCode == FRM_ERR_SUCCESS) { // Normal case / 正常系     
         // Wait for USB response frame send completion (read completion from host side) / USBの応答フレーム送信完了(ホスト側からの読み取り完了)を待つ
@@ -151,7 +151,7 @@ static void CMD_ExecReqCmd_GetUartConfig(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame / 応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);
 }
 
 // Execute get FW error command / FWエラー取得コマンドの実行
@@ -176,7 +176,7 @@ static void CMD_ExecReqCmd_GetFwError(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame / 応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf); 
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf); 
 }
 
 // Execute clear FW error command / FWエラークリアコマンドの実行
@@ -195,7 +195,7 @@ static void CMD_ExecReqCmd_ClearFwError(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame / 応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL); 
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL); 
 }
 
 // Execute erase FLASH command / FLASH消去コマンドの実行
@@ -210,7 +210,7 @@ static void CMD_ExecReqCmd_EraseFlash(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame regardless of success/failure / 成功・失敗に関わらず応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL); 
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL); 
 
     if (errCode == FRM_ERR_SUCCESS) { // Normal case / 正常系
         // Wait for USB response frame send completion (read completion from host side) / USBの応答フレーム送信完了(ホスト側からの読み取り完了)を待つ
@@ -239,7 +239,7 @@ static void CMD_ExecReqCmd_SetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame regardless of success/failure / 成功・失敗に関わらず応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL);
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, 0, NULL);
 
     if (errCode == FRM_ERR_SUCCESS) { // Normal case / 正常系
         // Wait for USB response frame send completion (read completion from host side) / USBの応答フレーム送信完了(ホスト側からの読み取り完了)を待つ
@@ -275,5 +275,5 @@ static void CMD_ExecReqCmd_GetNwConfig2(ST_FRM_REQ_FRAME *pstReqFrm)
     }
 
     // Send response frame / 応答フレームを送信        
-    FRM_MakeAndSendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);    
+    FRM_SendResFrm(pstReqFrm->seqNo, pstReqFrm->cmd, errCode, dataSize, pBuf);    
 }

@@ -8,7 +8,7 @@
 static ST_FRM_RECV_DATA_INFO f_stRecvDataInf = {0}; // USB receive data info / USB受信データ情報
 
 // Function prototypes / [関数プロトタイプ宣言]
-static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(void);
+static ST_FRM_REQ_FRAME* FRM_RecvReqFrm(void);
 
 // Extract USB received data ⇒ Parse and execute command / USB受信データ取り出し⇒コマンド解析・実行
 void FRM_Main()
@@ -16,7 +16,7 @@ void FRM_Main()
     ST_FRM_REQ_FRAME *pstReqFrm = NULL; // Request frame / 要求フレーム
 
 	// Create request frame from USB received data / USB受信データから要求フレームを作成する
-	pstReqFrm = FRM_RecvReqFrame();
+	pstReqFrm = FRM_RecvReqFrm();
 	if (pstReqFrm != NULL) { // If request frame extraction is completed / 要求フレームの抽出が完了した場合
 		// Parse and execute command / コマンドを解析・実行
 		CMD_ExecReqCmd(pstReqFrm);
@@ -24,7 +24,7 @@ void FRM_Main()
 }
 
 // Create request frame from USB received data / USB受信データから要求フレームを作成する
-static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(void)
+static ST_FRM_REQ_FRAME* FRM_RecvReqFrm(void)
 {
 	int32_t ret = -1;
 	UCHAR data = 0; 					// Receive data (1byte) / 受信データ(1byte)
@@ -131,7 +131,7 @@ static ST_FRM_REQ_FRAME* FRM_RecvReqFrame(void)
 }
 
 // USB send of response frame / 応答フレームのUSB送信
-void FRM_MakeAndSendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf)
+void FRM_SendResFrm(USHORT seqNo, USHORT cmd, USHORT errCode, USHORT dataSize, PVOID pBuf)
 {
 	ULONG frmSize;        			// Size of response frame (excluding checksum) / 応答フレームのサイズ(チェックサム除く)
 	UCHAR* pDataAry = (UCHAR*)pBuf;	// Data part of response frame / 応答フレームのデータ部
