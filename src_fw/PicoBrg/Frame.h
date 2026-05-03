@@ -5,7 +5,7 @@
 #include "Common.h"
 
 // [define] / [マクロ定義]
-#define FRM_DATA_MAX_SIZE 1024 // Size of data part buffer in frame. Data part of any command must be within this size. / フレーム中のデータ部のバッファのサイズ。どのコマンドのデータ部もこのサイズ以下であること。
+#define FRM_DATA_MAX_SIZE 1024 // Size of data part buffer in frame. Data part of any command must be within this size. / フレーム中のデータ部のバッファのサイズ。全てのコマンドのデータ部はこのサイズ以下であること。
 
 // Enumerations / [列挙体]
 // Frame header / フレームのヘッダ

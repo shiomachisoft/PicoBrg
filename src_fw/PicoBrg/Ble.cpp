@@ -6,6 +6,8 @@
 #define NUS_SERVICE_UUID    "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" // Service UUID / サービスUUID
 #define NUS_RX_CHAR_UUID    "6E400002-B5A3-F393-E0A9-E50E24DCCA9E" // Central -> Peripheral / セントラル -> ペリフェラル
 #define NUS_TX_CHAR_UUID    "6E400003-B5A3-F393-E0A9-E50E24DCCA9E" // Peripheral -> Central / ペリフェラル -> セントラル
+#define BLE_GATT_HEADER_SIZE 3 // GATT header size for Notify / NotifyのGATTヘッダサイズ
+#define BLE_DEFAULT_NOTIFY_PAYLOAD_SIZE 20 // Default maximum payload size (Default MTU 23 - GATT header 3) / デフォルトの最大ペイロードサイズ(デフォルトMTU23 - GATTヘッダ3)
 
 // File scope variables / [ファイルスコープ変数]
 static BLEDevice* f_pDevice = NULL; // Connection device / 接続デバイス
@@ -120,6 +122,18 @@ bool BLE_GetNotifyResultAndClear()
 void BLE_ClearNotifyResult()
 {
     f_lastNotifyResult = false;
+}
+
+// Get maximum Notify size considering MTU / MTUを考慮したNotify送信可能な最大サイズを取得
+uint16_t BLE_GetMaxNotifySize()
+{
+    if (BLE_IsConnected()) {
+        uint16_t mtu = att_server_get_mtu(f_conHandle);
+        if (mtu > BLE_GATT_HEADER_SIZE) {
+            return mtu - BLE_GATT_HEADER_SIZE; // Exclude GATT header / GATTヘッダを除外
+        }
+    }
+    return BLE_DEFAULT_NOTIFY_PAYLOAD_SIZE; // Default maximum payload size / デフォルトの最大ペイロードサイズ
 }
 
 // Callback for device connection notification / デバイス接続通知のコールバック

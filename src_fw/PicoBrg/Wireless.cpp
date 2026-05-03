@@ -1,9 +1,6 @@
 // Copyright © 2025 Shiomachi Software. All rights reserved.
 #include "Common.h"
 
-// [define] / [マクロ定義]
-#define WL_BLE_NOTIFY_MAX_SIZE 20 // Max send size per BLE transmission (safe size considering MTU) / BLEの1回あたりの最大送信サイズ(MTUを考慮した安全なサイズ)
-
 // File scope variables / [ファイルスコープ変数]
 static UCHAR f_aSendData[CMN_QUE_DATA_MAX_WL_SEND] = {0}; // Wireless send data buffer / 無線送信データのバッファ
 static ULONG f_sendDataSize = 0; // Size of pending send data / 送信待ちデータのサイズ
@@ -76,8 +73,12 @@ void WL_SendMain()
 	if (f_sendDataSize == 0) {
 		maxSize = sizeof(f_aSendData);
 		if (!pstFlashData->stNwConfig.isWifi) { // In case of BLE / BLEの場合
-			// Limit max send size per transmission considering BLE MTU limit / BLEのMTU制限を考慮して、一度に送信する最大サイズを制限する
-			maxSize = WL_BLE_NOTIFY_MAX_SIZE; 
+			// Limit max send size per transmission considering negotiated BLE MTU / ネゴシエーションされたBLEのMTUを考慮して、一度に送信する最大サイズを制限する
+			maxSize = BLE_GetMaxNotifySize(); 
+			if (maxSize > sizeof(f_aSendData)) {
+				// Limit to buffer size / バッファサイズを上限とする
+				maxSize = sizeof(f_aSendData);
+			}
 		}
 
 		for (i = 0; i < maxSize; i++) {

@@ -15,12 +15,15 @@ void FRM_Main()
 {
     ST_FRM_REQ_FRAME *pstReqFrm = NULL; // Request frame / 要求フレーム
 
-	// Create request frame from USB received data / USB受信データから要求フレームを作成する
-	pstReqFrm = FRM_RecvReqFrm();
-	if (pstReqFrm != NULL) { // If request frame extraction is completed / 要求フレームの抽出が完了した場合
-		// Parse and execute command / コマンドを解析・実行
-		CMD_ExecReqCmd(pstReqFrm);
-	}
+	do {
+		// Create request frame from USB received data / USB受信データから要求フレームを作成する
+		pstReqFrm = FRM_RecvReqFrm();
+		if (pstReqFrm != NULL) { // If request frame extraction is completed / 要求フレームの抽出が完了した場合
+			// Parse and execute command / コマンドを解析・実行
+			CMD_ExecReqCmd(pstReqFrm);
+			break;
+		}
+	} while (Serial.available() > 0);
 }
 
 // Create request frame from USB received data / USB受信データから要求フレームを作成する

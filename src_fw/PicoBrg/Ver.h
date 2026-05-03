@@ -5,7 +5,7 @@
 #include "Common.h"
 
 // FW version / FWバージョン
-#define FW_VER 0x26042800
+#define FW_VER 0x26050300
 
 // FW name / FW名
 // FW name size must be within FW_NAME_BUF_SIZE including NULL character / FW名のサイズは、NULL文字含めてFW_NAME_BUF_SIZEのサイズ以内

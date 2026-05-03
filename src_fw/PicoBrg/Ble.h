@@ -20,5 +20,6 @@ bool BLE_IsNotifying();
 bool BLE_IsNotifyEnabled();
 bool BLE_GetNotifyResultAndClear();
 void BLE_ClearNotifyResult();
+uint16_t BLE_GetMaxNotifySize();
 
 #endif
