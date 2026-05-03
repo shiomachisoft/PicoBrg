@@ -7,11 +7,16 @@ static volatile bool f_isCore1TurnToClearWdt = false; // Whether it is CPU core 
 
 // Function prototypes / [関数プロトタイプ宣言]
 static void MN_ControlLed();
+static void MN_RegisterExceptionHandler();
+static void MN_ExceptionHandler();
 
 // CPU core 0 setup / CPUコア0のセットアップ
 void setup() 
 {
 	ST_FLASH_DATA *pstFlashData; // FLASH data at power on / 電源起動時のFLASHデータ
+
+	// Register exception handler / 例外ハンドラを登録
+	MN_RegisterExceptionHandler();
 
 	// Initialize common library / 共通ライブラリを初期化
 	CMN_Init();	
@@ -112,4 +117,21 @@ static void MN_ControlLed()
 		// Clear LED blink timer count / LED点滅のタイマカウントをクリア
 		TMR_ClearLedTimer();
 	}
+}
+
+// Register exception handler / 例外ハンドラを登録
+static void MN_RegisterExceptionHandler()
+{
+	exception_set_exclusive_handler(NMI_EXCEPTION, MN_ExceptionHandler);
+	exception_set_exclusive_handler(HARDFAULT_EXCEPTION, MN_ExceptionHandler);
+	//exception_set_exclusive_handler(SVCALL_EXCEPTION, MN_ExceptionHandler);
+	//exception_set_exclusive_handler(PENDSV_EXCEPTION, MN_ExceptionHandler);
+	//exception_set_exclusive_handler(SYSTICK_EXCEPTION, MN_ExceptionHandler);	
+}
+
+// Exception handler / 例外ハンドラ
+static void MN_ExceptionHandler()
+{
+	// Reboot immediately by WDT timeout using watchdog_enable() / watchdog_enable()を使用して即WDTタイムアウトで再起動する
+	CMN_WdtEnableReboot();
 }
