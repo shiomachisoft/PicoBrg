@@ -181,11 +181,11 @@ The Nordic UART Service (NUS) is used for BLE communication.
    > **Note:**   
    > Waiting for about 10 seconds is because it takes time for Windows to recognize Pico W's virtual COM.  
    Double-clicking `PicoJigApp.exe` displays the main screen.
-2. Leave the [USB Mode] radio button in [1] on the [Main Screen] ON.
-3. Select the Pico W COM number in [2] on the [Main Screen] and press the [3] button.  
-   If the display in [4] on the [Main Screen] changes to `connected`, it is successfully connected to Pico W.
+2. Leave the [USB Mode] radio button in [1] ON.
+3. Select the Pico W COM number in [2] and press the [3] button.  
+   If the display in [4] changes to `connected`, it is successfully connected to Pico W.
 
-When the display in [4] on the [Main Screen] changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] on the [Main Screen] become enabled.
+When the display in [4] changes to `connected`, the buttons in area [5] ([NW Config], [UART]) and button [6] become enabled.
 
 ### Communication Mode and Wi-Fi Settings
 
