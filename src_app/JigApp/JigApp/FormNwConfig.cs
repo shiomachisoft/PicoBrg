@@ -53,20 +53,25 @@ namespace JigApp
             if (Str.PrpFwName == Str.STR_FW_NAME_PICOBRG)
             {
                 _eNwConfig = E_NW_CONFIG.NW_CONFIG2;
-                groupBox_EMail.Visible = false;
-                label_Name.Visible = false;
-                textBox_Name.Visible = false;
+                label_Subnet.Visible = false;
+                textBox_Subnet.Visible = false;
+                label_Gateway.Visible = false;
+                textBox_Gateway.Visible = false;
+                groupBox2.Height = 80;
             }
             else if (Str.PrpFwName == Str.STR_FW_NAME_PICOIOT)
             {
                 _eNwConfig = E_NW_CONFIG.NW_CONFIG3;
+                groupBox_TcpSocketCom.Visible = false;
             }
             else
             {
                 groupBox_TcpSocketCom.Visible = false;
-                groupBox_EMail.Visible = false;
-                label_Name.Visible = false;
-                textBox_Name.Visible = false;
+                label_Subnet.Visible = false;
+                textBox_Subnet.Visible = false;
+                label_Gateway.Visible = false;
+                textBox_Gateway.Visible = false;
+                groupBox2.Height = 80;
             }
 
             // Get communication settings / 通信設定を取得
@@ -82,16 +87,13 @@ namespace JigApp
             {
                 string strCountryCode = null;
                 string strIpAddr = null;
+                string strSubnetMask = null;
+                string strGateway = null;
                 string strSsid = null;
                 string strPassword = null;
                 string strServerIpAddr = null;
                 bool isClient = false;
                 bool isWifi = false;
-                string strGMailAddress = null;
-                string strGMailAppPassword = null;
-                string strToEMailAddress = null;
-                byte mailIntervalHour = 1;
-                string strName = null;
                 string strErrMsg = null;
 
                 this.Enabled = false;
@@ -104,7 +106,7 @@ namespace JigApp
                             return Program.PrpJigCmd.SendCmd_GetNwConfig2(out isWifi, out strCountryCode, out strIpAddr, out strSsid, out strPassword, out strServerIpAddr, out isClient);
                         case E_NW_CONFIG.NW_CONFIG3:
                             // Send request for "Get Network Config 3" command / 「ネットワーク設定取得3」コマンドの要求を送信
-                            return Program.PrpJigCmd.SendCmd_GetNwConfig3(out isWifi, out strCountryCode, out strIpAddr, out strSsid, out strPassword, out strServerIpAddr, out isClient, out strGMailAddress, out strGMailAppPassword, out strToEMailAddress, out mailIntervalHour, out strName);
+                            return Program.PrpJigCmd.SendCmd_GetNwConfig3(out isWifi, out strCountryCode, out strIpAddr, out strSubnetMask, out strGateway, out strSsid, out strPassword);
                         default:
                             // Send request for "Get Network Config" command / 「ネットワーク設定取得」コマンドの要求を送信
                             return Program.PrpJigCmd.SendCmd_GetNwConfig(out strCountryCode, out strIpAddr, out strSsid, out strPassword);
@@ -121,6 +123,10 @@ namespace JigApp
                     if ((_eNwConfig == E_NW_CONFIG.NW_CONFIG2) || (_eNwConfig == E_NW_CONFIG.NW_CONFIG3))
                     {
                         radioButton_Wifi.Checked = isWifi;
+                        radioButton_BLE.Checked = !isWifi;
+                    }
+                    if (_eNwConfig == E_NW_CONFIG.NW_CONFIG2)
+                    {
                         radioButton_Server.Checked = !isClient;
                         radioButton_Client.Checked = isClient;
                         textBox_ServerIpAddr.Enabled = isClient;
@@ -128,11 +134,8 @@ namespace JigApp
                     }
                     if (_eNwConfig == E_NW_CONFIG.NW_CONFIG3)
                     {
-                        textBox_GMailAddress.Text = strGMailAddress;
-                        textBox_GMailAppPassword.Text = strGMailAppPassword;
-                        textBox_ToEMailAddress.Text = strToEMailAddress;
-                        numericUpDown_MailIntervalHour.Value = mailIntervalHour;
-                        textBox_Name.Text = strName;
+                        textBox_Subnet.Text = strSubnetMask;
+                        textBox_Gateway.Text = strGateway;
                     }
 
                     UpdateWifiGroupEnable();
@@ -160,7 +163,6 @@ namespace JigApp
             try
             {
                 string strErrMsg;
-                string strName = textBox_Name.Text.Trim();
                 string strCountryCode = "XX"; // Country code is sent to the microcontroller, but it is not used on the microcontroller side. / カントリーコードはマイコンに送信するが、マイコン側ではカントリーコードは未使用。
 
                 // Display confirmation message / 確認メッセージを表示
@@ -172,14 +174,12 @@ namespace JigApp
                 // Get values of UI controls (Must be executed on UI thread) / UIコントロールの値を取得(UIスレッドで実行する必要があるため)
                 bool isWifi = radioButton_Wifi.Checked;
                 string strIpAddr = textBox_IpAddr.Text.Trim();
+                string strSubnetMask = textBox_Subnet.Text.Trim();
+                string strGateway = textBox_Gateway.Text.Trim();
                 string strSsid = textBox_SSID.Text.Trim();
                 string strPassword = textBox_Password.Text.Trim();
                 string strServerIpAddr = textBox_ServerIpAddr.Text.Trim();
                 bool isClient = radioButton_Client.Checked;
-                string strGMailAddress = textBox_GMailAddress.Text.Trim();
-                string strGMailAppPassword = textBox_GMailAppPassword.Text.Trim();
-                string strToEMailAddress = textBox_ToEMailAddress.Text.Trim();
-                byte mailIntervalHour = (byte)numericUpDown_MailIntervalHour.Value;
 
                 this.Enabled = false;
                 strErrMsg = await Task.Run(() =>
@@ -192,7 +192,7 @@ namespace JigApp
                     else if (_eNwConfig == E_NW_CONFIG.NW_CONFIG3)
                     {
                         // Send request for "Set Network Config 3" command / 「ネットワーク設定変更3」コマンドの要求を送信
-                        return Program.PrpJigCmd.SendCmd_SetNwConfig3(isWifi, strCountryCode, strIpAddr, strSsid, strPassword, strServerIpAddr, isClient, strGMailAddress, strGMailAppPassword, strToEMailAddress, mailIntervalHour, strName);
+                        return Program.PrpJigCmd.SendCmd_SetNwConfig3(isWifi, strCountryCode, strIpAddr, strSubnetMask, strGateway, strSsid, strPassword);
                     }
                     else
                     {
@@ -229,7 +229,6 @@ namespace JigApp
         {
             RadioButton radio = (RadioButton)sender;
 
-            textBox_ServerIpAddr.Enabled = !radio.Checked;
             if (Str.PrpFwName == Str.STR_FW_NAME_PICOBRG && radioButton_BLE.Checked)
             {
                 textBox_ServerIpAddr.Enabled = false;
@@ -277,7 +276,7 @@ namespace JigApp
 
         private void UpdateWifiGroupEnable()
         {
-            if (Str.PrpFwName == Str.STR_FW_NAME_PICOBRG)
+            if (Str.PrpFwName == Str.STR_FW_NAME_PICOBRG || Str.PrpFwName == Str.STR_FW_NAME_PICOIOT)
             {
                 bool isWifiEnabled = !radioButton_BLE.Checked;
 
