@@ -50,12 +50,12 @@
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton_BLE = new System.Windows.Forms.RadioButton();
             this.radioButton_Wifi = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox_Mode = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox_WiFi.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox_TcpSocketCom.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.groupBox_Mode.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_IpAddr
@@ -147,6 +147,7 @@
             this.radioButton_Server.Name = "radioButton_Server";
             this.radioButton_Server.Size = new System.Drawing.Size(101, 25);
             this.radioButton_Server.TabIndex = 56;
+            this.radioButton_Server.TabStop = true;
             this.radioButton_Server.Text = "Server";
             this.radioButton_Server.UseVisualStyleBackColor = true;
             this.radioButton_Server.CheckedChanged += new System.EventHandler(this.radioButton_Server_CheckedChanged);
@@ -287,22 +288,22 @@
             this.radioButton_Wifi.Text = "Wi-Fi";
             this.radioButton_Wifi.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // groupBox_Mode
             // 
-            this.groupBox3.Controls.Add(this.radioButton_Wifi);
-            this.groupBox3.Controls.Add(this.radioButton_BLE);
-            this.groupBox3.Location = new System.Drawing.Point(18, 15);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(791, 88);
-            this.groupBox3.TabIndex = 66;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Mode";
+            this.groupBox_Mode.Controls.Add(this.radioButton_Wifi);
+            this.groupBox_Mode.Controls.Add(this.radioButton_BLE);
+            this.groupBox_Mode.Location = new System.Drawing.Point(18, 15);
+            this.groupBox_Mode.Name = "groupBox_Mode";
+            this.groupBox_Mode.Size = new System.Drawing.Size(791, 88);
+            this.groupBox_Mode.TabIndex = 66;
+            this.groupBox_Mode.TabStop = false;
+            this.groupBox_Mode.Text = "Mode";
             // 
             // FormNwConfig
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(834, 766);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox_Mode);
             this.Controls.Add(this.groupBox_TcpSocketCom);
             this.Controls.Add(this.groupBox_WiFi);
             this.Controls.Add(this.button_SetConfig);
@@ -322,8 +323,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox_TcpSocketCom.ResumeLayout(false);
             this.groupBox_TcpSocketCom.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.groupBox_Mode.ResumeLayout(false);
+            this.groupBox_Mode.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -351,6 +352,6 @@
         private System.Windows.Forms.TextBox textBox_Gateway;
         private System.Windows.Forms.Label label_Gateway;
         private System.Windows.Forms.TextBox textBox_Subnet;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox_Mode;
     }
 }

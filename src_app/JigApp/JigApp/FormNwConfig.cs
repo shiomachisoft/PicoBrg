@@ -46,6 +46,7 @@ namespace JigApp
 
             if (!((Str.PrpFwName == Str.STR_FW_NAME_PICOBRG) || (Str.PrpFwName == Str.STR_FW_NAME_PICOIOT)))
             {
+                groupBox_Mode.Visible = false;
                 radioButton_BLE.Visible = false;
                 radioButton_Wifi.Visible = false;
             }
@@ -57,7 +58,6 @@ namespace JigApp
                 textBox_Subnet.Visible = false;
                 label_Gateway.Visible = false;
                 textBox_Gateway.Visible = false;
-                groupBox2.Height = 80;
             }
             else if (Str.PrpFwName == Str.STR_FW_NAME_PICOIOT)
             {
@@ -71,7 +71,6 @@ namespace JigApp
                 textBox_Subnet.Visible = false;
                 label_Gateway.Visible = false;
                 textBox_Gateway.Visible = false;
-                groupBox2.Height = 80;
             }
 
             // Get communication settings / 通信設定を取得
