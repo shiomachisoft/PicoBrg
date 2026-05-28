@@ -12,7 +12,7 @@ PicoBrg is a package consisting of firmware and a configuration PC app that uses
 ## System Configuration
 PicoBrg consists of two phases: "Configuration" via a PC application and the actual "Bridge Communication".
 
-### Configuration Setup
+### Configuration
 
 Use the dedicated PC application to configure various settings for the Pico W (communication mode, Wi-Fi, and UART).
 
@@ -22,7 +22,7 @@ Use the dedicated PC application to configure various settings for the Pico W (c
   - Connect the PC and Pico W using a USB cable to perform the configuration.
   - Since various settings (communication mode, Wi-Fi, UART) are saved in the flash memory inside the Pico W, they are retained even if the power is turned off once configured.
 
-### Bridge Communication Setup
+### Bridge Communication
 
 After configuration is complete, the Pico W bridges data according to the configured communication mode.
 
