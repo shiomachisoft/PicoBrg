@@ -6,8 +6,8 @@
 ## Overview
 PicoBrg is a package consisting of firmware and a configuration PC app that uses the Raspberry Pi Pico W to bridge communications in the following two modes:
 
-- **BLE Mode**: BLE ⇔ UART conversion
-- **Wi-Fi Mode**: Wi-Fi (TCP socket communication) ⇔ UART conversion
+- **BLE Mode**: BLE <-> UART conversion
+- **Wi-Fi Mode**: Wi-Fi (TCP socket communication) <-> UART conversion
 
 ## System Configuration
 PicoBrg consists of two phases: "Configuration" via a PC application and the actual "Bridge Communication".
