@@ -43,9 +43,9 @@ PicoBrg is firmware that converts (bridges) communication in the following two m
 
 ### Communication Modes
 - **BLE Mode**  
-  BLE to UART conversion
+  BLE <-> UART conversion
 - **Wi-Fi Mode**  
-  Wi-Fi (TCP socket communication) to UART conversion
+  Wi-Fi (TCP socket communication) <-> UART conversion
 
 ### System Configuration
 
