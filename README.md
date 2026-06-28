@@ -16,7 +16,8 @@ PicoBrg consists of two phases: "Configuration" via a PC application and the act
 
 Use the dedicated PC application to configure various settings for the Pico W (communication mode, Wi-Fi, and UART).
 
-<img width="509" height="115" alt="image" src="https://github.com/user-attachments/assets/6053c85c-94a2-4efb-89e9-94664699e260" />
+<img width="512" height="115" alt="image" src="https://github.com/user-attachments/assets/bd9a2ce5-0c1d-4ed3-b7d7-1adba5d7dbc4" />
+
 
 - **Notes**
   - Connect the PC and Pico W using a USB cable to perform the configuration.
